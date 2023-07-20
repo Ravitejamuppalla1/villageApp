@@ -27,7 +27,8 @@ userCtlr.register = async (req, res) => {
 userCtlr.login = async (req, res) => {
     try {
         const { body } = req
-        const userData = await User.findOne({ phoneNumber: body.phoneNumber })
+         let userData
+        userData = await User.findOne({ phoneNumber: body.phoneNumber }) || (userData = await Resident.findOne({ phoneNumber: body.phoneNumber }) )
         if (!userData) {
             res.json({
                 errors: "Invalid phoneNumber or password"
@@ -98,7 +99,8 @@ userCtlr.listOne = async (req, res) => {
 userCtlr.accountDetails = async (req, res) => {
     try {
         const id = req.user.id
-        const data = await User.findById(id)
+        let data
+         data = await User.findById(id) ||  (data = await Resident.findById(id))
         if (data) {
             res.json(data)
         } else {

@@ -1,3 +1,4 @@
+const bcryptjs = require('bcryptjs')
 const Resident = require('../models/resident')
 const residentCtlr = {}
 
@@ -5,7 +6,12 @@ residentCtlr.create = async(req,res)=>{
     try{
          const {body} = req
          const newResident = await Resident.create({...body,adminId:req.user.id})
-         res.json(newResident)
+         const saltValue = await bcryptjs.genSalt()
+         const hashValue = await bcryptjs.hash(newResident.password, saltValue)
+         newResident.password = hashValue
+         const userData = await newResident.save()
+         res.json(userData)
+      
     }
     catch(e){
         res.json(e)

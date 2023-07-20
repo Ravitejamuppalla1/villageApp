@@ -18,6 +18,14 @@ const residentSchema=new Schema({
         required:true,
         unique:true
     },
+    password:{
+        type:String,
+        required:true,
+        },
+        role:{
+            type:String,
+            default:'resident'
+        },
     villageId:{
         type:String,
         required:true

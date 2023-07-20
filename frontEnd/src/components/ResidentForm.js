@@ -30,6 +30,7 @@ const ResidentForm = (props) => {
     const [name, setName] = useState(result?.name ? result.name : '')
     const [phoneNumber, setPhoneNumber] = useState(result?.phoneNumber ? result.phoneNumber : '')
     const [doorNo, setDoorNo] = useState(result?.doorNo ? result.doorNo : '')
+    const [password, setPassword] = useState(result?.password ? result.password : '')
     const [villageId, setVillageId] = useState(result?.villageId ? result.villageId : '')
     const [formErrors, setFormErrors] = useState({})
     const errors = {}
@@ -48,6 +49,10 @@ const ResidentForm = (props) => {
 
     }
 
+    const handlePasswordchange = (e) => {
+        setPassword(e.target.value)
+    }
+
     const runValidations = () => {
         if (name.length === 0) {
             errors.name = 'Name cannot be blank'
@@ -57,6 +62,9 @@ const ResidentForm = (props) => {
         }
         if (doorNo.length === 0) {
             errors.doorNo = 'Door Number cannot be blank'
+        }
+        if (doorNo.password === 0) {
+            errors.password = 'password cannot be blank'
         }
 
     }
@@ -71,6 +79,7 @@ const ResidentForm = (props) => {
                 name,
                 phoneNumber,
                 doorNo,
+                password,
                 villageId
 
             }
@@ -79,10 +88,11 @@ const ResidentForm = (props) => {
                 setName('')
                 setPhoneNumber('')
                 setDoorNo('')
+                setPassword('')
                 setVillageId('')
             }
-
-            formSubmission(formData, reset, result?._id)
+            //formData.role = 'resident'
+              formSubmission(formData, reset, result?._id)
         }
         else {
             setFormErrors(errors)
@@ -129,6 +139,18 @@ const ResidentForm = (props) => {
                             </Form.Text>
                         </Col>
                     </Form.Group>
+
+                    <Form.Group as={Row} className='mt-3'>
+                            <Form.Label className="mx-5" column md={2}>Password</Form.Label>
+                            <Col md={5}>
+                                <Form.Control type='password' value={password} placeholder={"Enter your password"} onChange={handlePasswordchange} />
+
+                                <Form.Text className="text-muted">
+                                    {formErrors.password ? <span style={{ color: "red" }}>{formErrors.password}</span> : "We'll never share your password with anyone else."}
+                                </Form.Text>
+                            </Col>
+                        </Form.Group>
+
 
                     <Button variant="primary" type="submit" onClick={handleSubmit}>
                         {data.residents.editId ? 'Edit' : 'create'}
