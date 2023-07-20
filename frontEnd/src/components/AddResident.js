@@ -6,6 +6,7 @@ const AddResident = ()=>{
     const dispatch =useDispatch()
 
     const formSubmission = (formData,reset)=>{
+        //     formData.role = 'resident'
            dispatch(asyncCreateResident(formData,reset))
     } 
     return(

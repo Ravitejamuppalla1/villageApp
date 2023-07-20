@@ -1,10 +1,10 @@
 import Register from "./Register"
 
-const AddAdmin = ()=>{
-
+const AddAdmin = (props)=>{
+  const {t} =props
    return(
         <div>
-          <Register  />
+          <Register t={t}  />
         </div>
     )
 }

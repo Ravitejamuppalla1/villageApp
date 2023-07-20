@@ -9,21 +9,9 @@ const productsCltr =require('../App/controllers/products-Controller')
 const eventsCltr =require('../App/controllers/events-Controller')
 const userAuthenticate =require('../App/middlewares/authenticate')
 const authorize = require('../App/middlewares/authorize')
-//const Images = require('./Images') 
 
-//storage
+const upload = multer({dest:"Images/"})
 
-const storage = multer.diskStorage({
-   destination :(req,file,imagePath)=>{
-      imagePath('No image Received','Images')
-   },
-   fileName :(req,file,cb)=>{
-      console.log(file)
-      cb(null,Date.now() + path.extname(file.originalname))
-   }
-})
-
-const upload = multer({storage:storage})
 
 //users
  route.post('/api/register',userCtlr.register)
@@ -73,6 +61,7 @@ const upload = multer({storage:storage})
     next()
    },authorize,residentCtlr.delete)
 
+
 //village
    route.post('/api/village',userAuthenticate,(req, res, next) => {
       req.permittedRoles = ['admin']
@@ -97,6 +86,7 @@ const upload = multer({storage:storage})
        req.permittedRoles = ['admin']
        next()
    },authorize,villageCtlr.destroy)
+
 
 //events
 
@@ -141,7 +131,7 @@ route.get('/api/products/:id',userAuthenticate, (req, res, next) => {
 route.post('/api/products',userAuthenticate, (req, res, next) => {
    req.permittedRoles = ['resident','admin']
    next()
-},authorize,upload.single('image'),productsCltr.create)
+},authorize,upload.single('productImage'),productsCltr.create)
 
 route.put('/api/products/:id',userAuthenticate, (req, res, next) => {
    req.permittedRoles = ['resident','admin']

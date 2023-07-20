@@ -117,7 +117,7 @@ const ProductForm = (props)=>{
             </Row>
 
         <center>
-                <Form  >
+                <Form encType="multipart/form-data" >
                     <Form.Group as={Row} className='mt-5'>
                         <Form.Label className="mx-5" column md={2}>Product Name</Form.Label>
                         <Col md={5}>
@@ -169,6 +169,17 @@ const ProductForm = (props)=>{
 
                             <Form.Text className="text-muted">
                                 {formErrors.description ? <span style={{ color: "red" }}>{formErrors.description}</span> : "We'll never share your Product Details with anyone else."}
+                            </Form.Text>
+                        </Col>
+                    </Form.Group>
+
+                    <Form.Group as={Row} className='mt-3'>
+                        <Form.Label className="mx-5" column md={2}>Upload Image</Form.Label>
+                        <Col md={5}>
+                            <Form.Control type="image"  value={productImage} placeholder="Upload Image" onChange={handleImageChange} />
+
+                            <Form.Text className="text-muted">
+                                {formErrors.productImage ? <span style={{ color: "red" }}>{formErrors.productImage}</span> : "We'll never share your Product Details with anyone else."}
                             </Form.Text>
                         </Col>
                     </Form.Group>
