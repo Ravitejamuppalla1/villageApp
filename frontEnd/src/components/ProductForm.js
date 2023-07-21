@@ -10,13 +10,19 @@ const ProductForm = (props)=>{
 
     const {productSubmission} =props
 
+    const accountDetails = useSelector((state)=>{
+        return state.users.userDetails
+    }) 
+
     useEffect(() => {
-        dispatch(asyncGetVillage())
+        dispatch(asyncGetVillage(accountDetails._id))
     }, [])
 
     const data = useSelector((state => {
         return state
     }))
+
+    console.log(data,'data')
   
     const result = data.products.data.find((ele) => {
         return ele._id === data.products.editId
@@ -51,12 +57,11 @@ const ProductForm = (props)=>{
 
     const handleDescriptionchange = (e) => {
         setDescription(e.target.value)
-        setVillageId(data.village.data[0]._id)
+        setVillageId(data.village.data._id)
     }
      
     const handleImageChange = (e)=>{
-             console.log(e.target.files)
-             setProductImage(e.target.files[0])
+        setProductImage(e.target.files[0]) 
     }
 
     const runValidations = () => {
@@ -83,18 +88,23 @@ const ProductForm = (props)=>{
         if (Object.keys(errors).length === 0) {
             setFormErrors({})
 
-            const formData = {
-                name,
-                price,
-                phoneNumber,
-                quantity,
-                description,
-                villageId,
-                
-            }
+            // const formData = {
+            //     name,
+            //     price,
+            //     phoneNumber,
+            //     quantity,
+            //     description,
+            //     villageId
+            // }
              const formData1 = new FormData()
-             formData1.append('image',productImage)
-               console.log(formData1,'1')
+             formData1.append('name',name)
+             formData1.append('price',price)
+             formData1.append('phoneNumber',phoneNumber)
+             formData1.append('quantity',quantity)
+             formData1.append('description',description)
+             formData1.append('villageId',villageId)
+             formData1.append('productImage',productImage)
+
             const reset = () => {
                 setName('')
                 setPrice('')
@@ -102,8 +112,9 @@ const ProductForm = (props)=>{
                 setQuantity('')
                 setDescription('')
                 setVillageId('')
+                setProductImage('')
              }
-
+            productSubmission(formData1,reset)
            }
         else {
             setFormErrors(errors)
@@ -117,7 +128,7 @@ const ProductForm = (props)=>{
             </Row>
 
         <center>
-                <Form encType="multipart/form-data" >
+                <Form  >
                     <Form.Group as={Row} className='mt-5'>
                         <Form.Label className="mx-5" column md={2}>Product Name</Form.Label>
                         <Col md={5}>
@@ -176,7 +187,7 @@ const ProductForm = (props)=>{
                     <Form.Group as={Row} className='mt-3'>
                         <Form.Label className="mx-5" column md={2}>Upload Image</Form.Label>
                         <Col md={5}>
-                            <Form.Control type="image"  value={productImage} placeholder="Upload Image" onChange={handleImageChange} />
+                            <Form.Control type="file" placeholder="Upload Image" onChange={handleImageChange} />
 
                             <Form.Text className="text-muted">
                                 {formErrors.productImage ? <span style={{ color: "red" }}>{formErrors.productImage}</span> : "We'll never share your Product Details with anyone else."}

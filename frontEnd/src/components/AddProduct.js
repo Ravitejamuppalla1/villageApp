@@ -6,6 +6,7 @@ const AddProduct = ()=>{
     const dispatch =useDispatch()
 
     const productSubmission = (formData,reset)=>{
+        console.log(formData.files, "formdata")
            dispatch(asyncCreateProduct(formData,reset))
     } 
     return(

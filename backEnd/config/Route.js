@@ -1,6 +1,5 @@
 const express = require('express')
 const multer = require('multer')
-const path = require('path')
 const route = express.Router()
 const userCtlr = require('../App/controllers/users_Controller')
 const villageCtlr = require('../App/controllers/villages_Controller')
@@ -10,7 +9,7 @@ const eventsCltr =require('../App/controllers/events-Controller')
 const userAuthenticate =require('../App/middlewares/authenticate')
 const authorize = require('../App/middlewares/authorize')
 
-const upload = multer({dest:"Images/"})
+const upload = multer({dest:'uploads/'})
 
 
 //users

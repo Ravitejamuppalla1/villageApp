@@ -48,11 +48,13 @@ const Products = () => {
                                 <th className="col">Contact Number</th>
                                 <th className="col">Description</th>
                                 <th className="col">Modify</th>
+                                <th className="col">Image</th>
                                </tr>
                         </thead>
                         <tbody>
                             {
                                 productsData.data.map((ele, i) => {
+                                    console.log(ele.image)
                                     return <tr key={i}>
                                         <td>{i + 1}</td>
                                         <td>{ele.name}</td>
@@ -62,8 +64,10 @@ const Products = () => {
                                         <td> <button type="button" className="btn btn-primary" onClick={() => { handleShowProduct(ele) }} data-bs-toggle="modal" data-bs-target="#exampleModal">
                                             Show
                                         </button></td>
+
                                         <td><button onClick={() => { handleEditProduct(ele._id) }} className="btn btn-info">Edit</button>
                                             <button onClick={() => { handleDestroyProduct(ele._id) }} className="btn btn-danger">Delete</button></td>
+                                        <td><img src={`http://127.0.0.1:3020/${ele.image}`}  height = "80px" width="150px" alt = "img"/></td>
                                     </tr>
                                 })
                             }
