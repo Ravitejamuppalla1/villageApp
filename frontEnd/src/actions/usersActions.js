@@ -27,9 +27,10 @@ export const asynctUserRegister = (formData, props,reset) => {
             .then((result) => {
                 dispatch(createUser(result.data))
                  reset()
-                 if( ! localStorage.getItem('token')){
-                          props.history.push('/login')
-                 }
+                 props.history.push('/login')
+                //  if( ! localStorage.getItem('token')){
+                //           props.history.push('/login')
+                //  }
                  })
             .catch((err) => {
                 console.log(err.message)

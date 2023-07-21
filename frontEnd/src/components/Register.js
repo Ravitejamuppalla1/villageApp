@@ -76,7 +76,7 @@ const Register = (props) => {
         <Suspense fallback="Loading..." >
             <div>
                 <Row className="justify-content-md-center">
-                    <center> <Col md="auto" >{(localStorage.getItem('token') != 'undefined') ? <h1 style={{ color: "DarkBlue" }}>{t("admin")}</h1> : <h1 style={{ color: "DarkBlue" }}><b>{t("Register")}</b></h1>}</Col></center>
+                    <center> <Col md="auto" >{(localStorage.getItem('token')) ? <h1 style={{ color: "DarkBlue" }}>{t("admin")}</h1> : <h1 style={{ color: "DarkBlue" }}><b>{t("Register")}</b></h1>}</Col></center>
                 </Row>
 
                 <center>
@@ -130,6 +130,7 @@ const Register = (props) => {
                 </center>
             </div>
         </Suspense>
+    
     )
 }
 export default Register
