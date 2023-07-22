@@ -25,15 +25,18 @@ export const asynctUserRegister = (formData, props,reset) => {
  return (dispatch) => {
         axios.post('/api/register', formData)
             .then((result) => {
-                dispatch(createUser(result.data))
-                 reset()
-                 props.history.push('/login')
-                //  if( ! localStorage.getItem('token')){
-                //           props.history.push('/login')
-                //  }
+               if(result.data.hasOwnProperty('password')){
+                    dispatch(createUser(result.data))
+                   reset()
+                  props.history.push('/login')
+                }
+                else{
+                    Swal.fire(result.data)
+                }
+               
                  })
             .catch((err) => {
-                console.log(err.message)
+               console.log(err.message)
             })
     }
 }
@@ -192,15 +195,14 @@ export const editAdmin = (data) => {
 //Delete Admin
 
 export const destroyAdmin = (data) => {
-    return {
+  return {
         type:DELETE_ADMIN,
         payload: data
     }
   }
   
   export const asyncDestroyAdmin = (id,type,formData) => {
-
-    return (dispatch) => {
+         return (dispatch) => {
         axios.put(`/api/admindelete/${id}?type=${type.type}`,formData, { headers: { 'authorization': localStorage.getItem('token') } })
             .then((response) => {
                 const result = response.data

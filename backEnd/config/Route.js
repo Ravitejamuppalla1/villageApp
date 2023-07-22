@@ -114,6 +114,7 @@ route.delete('/api/events/:id',userAuthenticate, (req, res, next) => {
    next()
 },authorize,eventsCltr.destroy)
 
+route.post('/api/whatsapp',userAuthenticate,eventsCltr.sendMesaage)
 
 // PRODUCT
 

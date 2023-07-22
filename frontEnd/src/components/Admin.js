@@ -53,8 +53,9 @@ const Admin = (props) => {
     }
 
     const handleDestroyAdmin = (id) => {
+       const number = Number(new Date()) + ""
         Swal.fire('Are you sure ,you want to suspend the admin')
-        dispatch(asyncDestroyAdmin(id, { type: 'soft' }, { phoneNumber: 1 }))
+        dispatch(asyncDestroyAdmin(id, { type: 'soft' }, { phoneNumber: number.slice(3)}))
     }
 
     const handleRestoreAdmin = (id) => {
@@ -143,9 +144,11 @@ const Admin = (props) => {
                 </div>
 
                 <div className="col-md-8">
+                    
                 {
                         suspendedData.length > 0 ?
                             <div>
+                            
                                 <h3 style={{ color: "DarkBlue" }}>{t("Restored")}</h3>
                                 <table className="table">
                                     <thead>
@@ -187,7 +190,7 @@ const Admin = (props) => {
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
-                            {t("VillageName")}-{villageData.name} <br />
+                            {t("VillageName")}-{villageData?.name} <br />
                             {t("ContactNumber")} -{displayAdmin.phoneNumber}<br />
                         </div>
                         <div className="modal-footer">

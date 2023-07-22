@@ -99,6 +99,8 @@ const EventForm = (props)=>{
 
     return(
         <div>
+             {data.village.data === null ?  <p style={{color:"red"}}>Create Village Record,to access this page</p> :
+             <>
               <Row className="justify-content-md-center">
                 <center> <Col md="auto" > <h1 style={{ color: "DarkBlue" }}>{data.events.editId ? "Edit Event" : " Add Event"}</h1> </Col></center>
             </Row>
@@ -154,6 +156,8 @@ const EventForm = (props)=>{
 
                     </Form>
                     </center>
+                    </>
+            }
                </div>
     )
 }

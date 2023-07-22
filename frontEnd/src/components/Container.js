@@ -112,14 +112,14 @@ const Container = (props) => {
 
                     (
                         <div className="container-fluid">
-                            <nav className="navbar navbar-expand-lg bg-body-tertiary" style={{ backgroundColor: "green" }}>
+                            <nav className="navbar navbar-expand-lg navbar-light" style={{ backgroundColor: "green" }}>
                                 <h1 className="navbar-brand" ><span style={{ backgroundColor: "gold" }}>{t("VILLAGE")}</span></h1>
                                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                                     <span className="navbar-toggler-icon"></span>
                                 </button>
                                 <div className="collapse navbar-collapse" id="navbarNavDropdown">
                                     <ul className="navbar-nav mr-auto">
-                                        <li className="nav-item active">
+                                         <li className="nav-item active">
                                             <li><Link className="nav-link" to='/' style={{ color: "white" }}>{t("Home")}</Link></li>
                                         </li>
                                         <li className="nav-item active">

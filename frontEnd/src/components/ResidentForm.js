@@ -21,7 +21,7 @@ const ResidentForm = (props) => {
     const data = useSelector((state) => {
         return state
     })
-
+ // console.log(data.village.data,'v')
 
     const result = data.residents.data.find((ele) => {
         return ele._id === data.residents.editId
@@ -101,8 +101,10 @@ const ResidentForm = (props) => {
 
     return (
         <div>
-            <center>
-            <Row className="justify-content-md-center">
+            { data.village.data === null ?  <p style={{color:"red"}}>Create Village Record,to access this page</p> :
+         <center>
+             
+              <Row className="justify-content-md-center">
                 <center> <Col md="auto" > <h1 style={{ color: "DarkBlue" }}>{data.residents.editId ? "Edit Resident" : " Add Resident"}</h1> </Col></center>
             </Row>
 
@@ -157,7 +159,11 @@ const ResidentForm = (props) => {
                     </Button>
 
                 </Form>
-            </center>
+                
+                </center>
+                    }
+
+      
         </div>
     )
 

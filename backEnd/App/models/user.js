@@ -1,4 +1,6 @@
 const mongoose=require('mongoose')
+const validator = require('validator')
+
 const {Schema}=mongoose
 
 const userSchema=new Schema({
@@ -7,9 +9,17 @@ const userSchema=new Schema({
          required:true
     },
     phoneNumber:{
-        type:Number,
+        type:String,
         unique:true,
-        required:true
+        required:true,
+        validate:{
+            validator:function(value){
+                return validator.isMobilePhone(value, 'en-IN', { strictMode: false })
+            },
+            message:function(){
+                return 'Invalid a Phone Number'
+            }
+        }
        
     },
    password:{

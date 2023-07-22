@@ -3,6 +3,7 @@ require('dotenv').config()
 const userAuthenticate = (req,res,next)=>{
    const token = req.header('authorization').split(' ')[1]
    const verifyToken = jwt.verify(token,process.env.SECRET_KEY)
+  
   if(verifyToken){
         const userData = {
             id:verifyToken.id,
