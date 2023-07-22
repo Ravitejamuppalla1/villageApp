@@ -12,7 +12,7 @@ const Register = (props) => {
     const [formErrors, setformErrors] = useState({})
     const errors = {}
     const dispatch = useDispatch()
-    const { t } = props
+    const { t} = props
   
 
     const handleNameChange = (e) => {
@@ -27,9 +27,9 @@ const Register = (props) => {
     const runValidations = () => {
         if (name.length === 0) {
             errors.name = 'Name cannot be blank'
-        }
+                }
         if (phoneNumber.length === 0) {
-            errors.phoneNumber = 'phoneNumber cannot be blank'
+            errors.phoneNumber = 'PhoneNumber cannot be blank'
         }
         if (password.length === 0) {
             errors.password = 'Password cannot be blank'
@@ -66,11 +66,7 @@ const Register = (props) => {
         }
     }
 
-  const handleLanguageChange = (e) => {
-        i18n.changeLanguage(e.target.value)
-    
 
-    }
 
     return (
         <Suspense fallback="Loading..." >
@@ -87,7 +83,7 @@ const Register = (props) => {
                                 <Form.Control type='text' value={name} placeholder={t("name")} onChange={handleNameChange} />
 
                                 <Form.Text className="text-muted">
-                                    {formErrors.name ? <span style={{ color: "red" }}>{formErrors.name}</span> : "We'll never share your name with anyone else."}
+                                    {formErrors.name ? <span style={{ color: "red" }}>{t("blankName")}</span> : <span>{t("shareName")}</span>}
                                 </Form.Text>
                             </Col>
                         </Form.Group>
@@ -98,7 +94,7 @@ const Register = (props) => {
                                 <Form.Control ttype='text' value={phoneNumber} placeholder={t("phonenumber")} onChange={handleNumberChange} />
 
                                 <Form.Text className="text-muted">
-                                    {formErrors.phoneNumber ? <span style={{ color: "red" }}>{formErrors.phoneNumber}</span> : "We'll never share your Phonenumber with anyone else."}
+                                    {formErrors.phoneNumber ? <span style={{ color: "red" }}>{t("blankPhoneNumber")}</span> : <span>{t("sharePhoneNumber")}</span>}
                                 </Form.Text>
                             </Col>
                         </Form.Group>
@@ -109,28 +105,23 @@ const Register = (props) => {
                                 <Form.Control type='password' value={password} placeholder={t("password")} onChange={handlePasswordchange} />
 
                                 <Form.Text className="text-muted">
-                                    {formErrors.password ? <span style={{ color: "red" }}>{formErrors.password}</span> : "We'll never share your password with anyone else."}
+                                    {formErrors.password ? <span style={{ color: "red" }}>{t("blankPassword")}</span> : <span>{t("sharePassword")}</span>}
                                 </Form.Text>
                             </Col>
                         </Form.Group>
 
                         <Button variant="primary" type="submit" onClick={handleSubmit}>
-                            {(localStorage.getItem('token' )!= 'undefined' )? "create" : "Register"}
+                           {(localStorage.getItem('token' ) )? <span>{t("Create")}</span> : <span>{t("Register")}</span> } 
                         </Button>
 
                     </Form>
 
-                    <select name='language' onChange={handleLanguageChange}>
-                        <option value="en">English</option>
-                        <option value="te">Telugu</option>
-                        <option value="ta">Tamil</option>
-                        <option value="ka">Kannada</option>
-                    </select>
+             
 
                 </center>
             </div>
         </Suspense>
-    
+       
     )
 }
 export default Register
