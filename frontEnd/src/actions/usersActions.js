@@ -192,15 +192,14 @@ export const editAdmin = (data) => {
 //Delete Admin
 
 export const destroyAdmin = (data) => {
-    return {
+  return {
         type:DELETE_ADMIN,
         payload: data
     }
   }
   
   export const asyncDestroyAdmin = (id,type,formData) => {
-
-    return (dispatch) => {
+         return (dispatch) => {
         axios.put(`/api/admindelete/${id}?type=${type.type}`,formData, { headers: { 'authorization': localStorage.getItem('token') } })
             .then((response) => {
                 const result = response.data
