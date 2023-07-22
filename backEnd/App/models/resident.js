@@ -1,5 +1,8 @@
 const mongoose=require('mongoose')
+const validator = require('validator')
+
 const {Schema}=mongoose
+
 
 const residentSchema=new Schema({
     name:{
@@ -7,11 +10,17 @@ const residentSchema=new Schema({
         required:true
     },
    phoneNumber:{
-        type:Number,
+        type:String,
         required:true,
         unique:true,
-        minlength:10,
-        maxlength:10
+        validate:{
+            validator:function(value){
+                return validator.isMobilePhone(value, 'en-IN', { strictMode: false })
+            },
+            message:function(){
+                return 'Invalid a Phone Number'
+            }
+        }
     },
     doorNo:{
         type:String,

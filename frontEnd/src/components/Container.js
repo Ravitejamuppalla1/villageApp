@@ -119,7 +119,7 @@ const Container = (props) => {
                                 </button>
                                 <div className="collapse navbar-collapse" id="navbarNavDropdown">
                                     <ul className="navbar-nav mr-auto">
-                                        <li className="nav-item active">
+                                         <li className="nav-item active">
                                             <li><Link className="nav-link" to='/' style={{ color: "white" }}>{t("Home")}</Link></li>
                                         </li>
                                         <li className="nav-item active">

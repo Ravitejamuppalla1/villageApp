@@ -20,7 +20,7 @@ const villagesReducers = (state = villageInitialState, action) => {
             
         }
         default: {
-            return  {...state}
+            return  state
         }
     }
 }

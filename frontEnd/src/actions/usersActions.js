@@ -25,15 +25,18 @@ export const asynctUserRegister = (formData, props,reset) => {
  return (dispatch) => {
         axios.post('/api/register', formData)
             .then((result) => {
-                dispatch(createUser(result.data))
-                 reset()
-                 props.history.push('/login')
-                //  if( ! localStorage.getItem('token')){
-                //           props.history.push('/login')
-                //  }
+               if(result.data.hasOwnProperty('password')){
+                    dispatch(createUser(result.data))
+                   reset()
+                  props.history.push('/login')
+                }
+                else{
+                    Swal.fire(result.data)
+                }
+               
                  })
             .catch((err) => {
-                console.log(err.message)
+               console.log(err.message)
             })
     }
 }

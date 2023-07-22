@@ -190,7 +190,7 @@ const Admin = (props) => {
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
-                            {t("VillageName")}-{villageData.name} <br />
+                            {t("VillageName")}-{villageData?.name} <br />
                             {t("ContactNumber")} -{displayAdmin.phoneNumber}<br />
                         </div>
                         <div className="modal-footer">

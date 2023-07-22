@@ -1,5 +1,8 @@
 const mongoose=require('mongoose')
+const validator = require('validator')
+
 const {Schema}=mongoose
+
 
 const productSchema=new Schema({
     name:{
@@ -11,20 +14,28 @@ const productSchema=new Schema({
         required:true
     },
     phoneNumber:{
-        type:Number,
+        type:String,
         required:true,
-        minlength:10,
-        maxlength:10
+        validate:{
+            validator:function(value){
+                return validator.isMobilePhone(value, 'en-IN', { strictMode: false })
+            },
+            message:function(){
+                return 'Invalid a Phone Number'
+            }
+        }
     },
     quantity:{
         type:Number,
         required:true
     },
     description:{
-         type:String
+         type:String,
+         required:true
     },
     image:{
-        type:String
+        type:String,
+        required:true
     },
     userId:{
           type:Schema.Types.ObjectId,

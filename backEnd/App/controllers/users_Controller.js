@@ -20,7 +20,7 @@ userCtlr.register = async (req, res) => {
         res.json(userData)
     }
     catch (e) {
-        res.json(e)
+        res.json(e.message)
     }
 }
 

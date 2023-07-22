@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
-import { asyncGetEvents, asyncSetEditEventId, asyncDestroyEvent } from "../actions/eventsActions"
+import { asyncGetEvents, asyncSetEditEventId, asyncDestroyEvent,asyncSendEvent } from "../actions/eventsActions"
+import { asyncAccountDetails } from "../actions/usersActions"
+import { asyncGetVillage } from "../actions/villagesActions"
 import AddEvent from '../components/AddEvent'
 import EditEvent from "./EditEvent"
 
@@ -11,14 +13,27 @@ const Events = (props) => {
 
     useEffect(() => {
         dispatch(asyncGetEvents())
-    }, [])
+        dispatch(asyncAccountDetails())
+   }, [])
 
     const eventsData = useSelector((state => {
         return state.events
     }))
 
+    const accountData = useSelector((state => {
+        return state.users.userDetails
+    }))
+
+    useEffect(()=>{
+        dispatch(asyncGetVillage(accountData._id))
+    })
+
+    const data1 = useSelector((state => {
+        return state
+    }))
+  
     const handleEditEvent = (id) => {
-        console.log(id, 'i')
+    
         dispatch(asyncSetEditEventId(id))
     }
 
@@ -29,10 +44,16 @@ const Events = (props) => {
     const handleShowEvent = (ele) => {
         setShowEvent(ele)
     }
+
+    const handleSendEvent = (data)=>{
+        data.adminNumber =accountData.phoneNumber
+  dispatch(asyncSendEvent(data))
+
+    }
     return (
         <div>
-
-            {
+               { data1.village.data === null ?  <></> :
+               
                 eventsData.data.length > 0 ?
                     <div>
                         <h1> Lists of Events</h1>
@@ -59,7 +80,10 @@ const Events = (props) => {
                                                 Show
                                             </button></td>
                                             <td><button onClick={() => { handleEditEvent(ele._id) }} className="btn btn-info">Edit</button>
-                                                <button onClick={() => { handleDestroyEvent(ele._id) }} className="btn btn-danger">Delete</button></td>
+                                                <button onClick={() => { handleDestroyEvent(ele._id) }} className="btn btn-danger">Delete</button>
+                                                <button onClick={() => { handleSendEvent(ele) }} className="btn btn-danger">whatsapp</button>
+                                                
+                                                </td>
                                         </tr>
                                     })
                                 }
