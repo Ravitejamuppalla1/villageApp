@@ -1,11 +1,18 @@
-const Product=require('../models/product')
+const Product = require('../models/product')
 
-const productsCltr={}
+const productsCltr = {}
 
 //list
 productsCltr.list = async (req, res) => {
     try {
-        const products = await Product.find()
+        const { id } = req.params
+        let products
+        if (req.user.role === 'resident') {
+            products = await Product.find({ villageId: id })
+        }
+        else if (req.user.role === 'admin') {
+            products = await Product.find({ adminId: id })
+        }
         res.json(products)
 
     } catch (e) {
@@ -35,7 +42,7 @@ productsCltr.create = async (req, res) => {
     try {
         const body = req.body
         const image = req.file.path
-        const product = await Product.create({...body, image:image})
+        const product = await Product.create({ ...body, image: image })
         res.json(product)
 
     } catch (e) {
@@ -47,14 +54,14 @@ productsCltr.create = async (req, res) => {
 productsCltr.update = async (req, res) => {
     try {
         const id = req.params.id
-        const body=req.body
-        const data = await Product.findByIdAndUpdate(id,body,{new:true,runValidators:true})
+        const body = req.body
+        const data = await Product.findByIdAndUpdate(id, body, { new: true, runValidators: true })
         if (data) {
             res.json(data)
         } else {
             res.json({})
         }
-    }catch(e){
+    } catch (e) {
         res.json(e.message)
     }
 }
@@ -70,9 +77,9 @@ productsCltr.destroy = async (req, res) => {
         } else {
             res.json({})
         }
-    }catch(e){
+    } catch (e) {
         res.json(e.message)
     }
 }
 
-module.exports=productsCltr
+module.exports = productsCltr

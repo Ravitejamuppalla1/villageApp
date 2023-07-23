@@ -11,9 +11,13 @@ const Residents = (props) => {
 
     const [display, setDisplay] = useState({})
 
+    const accountData = useSelector((state)=>{
+        return state.users.userDetails
+    })
+
     useEffect(() => {
         dispatch(asyncGetResidents())
-        dispatch(asyncGetVillage())
+        dispatch(asyncGetVillage(accountData._id))
     }, [])
 
     const dataResidents = useSelector((state => {

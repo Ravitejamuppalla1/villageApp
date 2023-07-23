@@ -14,9 +14,9 @@ export const getProducts = (data) => {
 }
 
 
-export const asyncGetProducts = () => {
+export const asyncGetProducts = (id) => {
     return (dispatch) => {
-        axios.get('/api/products', { headers: { 'authorization': localStorage.getItem('token') } })
+        axios.get(`/api/allproducts/${id}`, { headers: { 'authorization': localStorage.getItem('token') } })
             .then((response) => {
                 const result = response.data
                 dispatch(getProducts(result))
