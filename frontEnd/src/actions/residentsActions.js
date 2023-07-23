@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2'
 import axios from '../config/axios'
 export const GET_RESIDENTS = 'GET_RESIDENTS'
 export const CREATE_RESIDENT = "CREATE_RESIDENT"
@@ -68,8 +69,15 @@ export const asyncCreateResident = (formData, reset) => {
     axios.post('/api/residents', formData, { headers: { 'authorization': localStorage.getItem('token') } })
       .then((response) => {
         const result = response.data
+         if(result.hasOwnProperty('password')){
         dispatch(createResident(result))
         reset()
+        }
+        else{
+          Swal.fire(result.message)
+          reset()
+
+        }
       })
       .catch((err) => {
         alert(err.message)

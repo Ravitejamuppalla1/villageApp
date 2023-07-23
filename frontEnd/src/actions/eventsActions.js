@@ -13,9 +13,10 @@ export const getEvents = (data) => {
 }
 
 
-export const asyncGetEvents = () => {
+export const asyncGetEvents = (id) => {
+
     return (dispatch) => {
-        axios.get('/api/events', { headers: { 'authorization': localStorage.getItem('token') } })
+        axios.get(`api/allevents/${id}`, { headers: { 'authorization': localStorage.getItem('token') } })
             .then((response) => {
                 const result = response.data
                 dispatch(getEvents(result))

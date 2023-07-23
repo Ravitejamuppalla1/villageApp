@@ -87,16 +87,7 @@ const ProductForm = (props)=>{
         runValidations()
         if (Object.keys(errors).length === 0) {
             setFormErrors({})
-
-            // const formData = {
-            //     name,
-            //     price,
-            //     phoneNumber,
-            //     quantity,
-            //     description,
-            //     villageId
-            // }
-             const formData1 = new FormData()
+            const formData1 = new FormData()
              formData1.append('name',name)
              formData1.append('price',price)
              formData1.append('phoneNumber',phoneNumber)
@@ -112,7 +103,7 @@ const ProductForm = (props)=>{
                 setQuantity('')
                 setDescription('')
                 setVillageId('')
-                setProductImage('')
+                setProductImage(null)
              }
             productSubmission(formData1,reset)
            }

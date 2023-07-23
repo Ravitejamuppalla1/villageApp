@@ -22,7 +22,12 @@ const eventSchema=new Schema({
         type:Schema.Types.ObjectId,
         ref:'Villages',
         required:true
-    }
+    },
+    adminId:{
+        type:Schema.Types.ObjectId,
+        ref:'Users',
+        required:true
+       }
 })
 const Event=mongoose.model('Event',eventSchema)
 module.exports=Event

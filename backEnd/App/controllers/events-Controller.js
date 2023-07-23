@@ -7,8 +7,9 @@ const eventsCltr={}
 //list
 eventsCltr.list = async (req, res) => {
     try {
-        const events = await Event.find()
-        res.json(events)
+        const {id} =  req.params
+        const events = await Event.find({adminId:id})
+       res.json(events)
 
     } catch (e) {
         res.json(e.message)

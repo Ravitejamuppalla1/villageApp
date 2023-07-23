@@ -14,10 +14,12 @@ export const getVillage = (data) => {
 
 
 export const asyncGetVillage = (id) => {
+    
    return (dispatch) => {
         axios.get(`/api/village/${id}`, { headers: { 'authorization': localStorage.getItem('token') } })
             .then((response) => {
                 const result = response.data
+               
                 dispatch(getVillage(result))
             })
             .catch((err) => {
