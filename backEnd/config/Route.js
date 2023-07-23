@@ -72,7 +72,7 @@ const upload = multer({dest:'uploads/'})
       next()
   },authorize,villageCtlr.create)
    route.get('/api/village/:id',userAuthenticate,(req, res, next) => {
-       req.permittedRoles = ['admin','superAdmin']
+       req.permittedRoles = ['admin','superAdmin','resident']
        next()
    },authorize,villageCtlr.list)
    
@@ -123,8 +123,8 @@ route.post('/api/whatsapp',userAuthenticate,eventsCltr.sendMesaage)
 
 // PRODUCT
 
-route.get('/api/products',userAuthenticate, (req, res, next) => {
-   req.permittedRoles = ['admin','superAdmin','assistant','resident']
+route.get('/api/allproducts/:id',userAuthenticate, (req, res, next) => {
+   req.permittedRoles = ['admin','resident']
    next()
 },authorize,productsCltr.list)
 

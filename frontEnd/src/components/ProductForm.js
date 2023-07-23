@@ -15,14 +15,14 @@ const ProductForm = (props)=>{
     }) 
 
     useEffect(() => {
-        dispatch(asyncGetVillage(accountDetails._id))
+        dispatch(asyncGetVillage(accountDetails.adminId))
     }, [])
 
     const data = useSelector((state => {
         return state
     }))
 
-    console.log(data,'data')
+   
   
     const result = data.products.data.find((ele) => {
         return ele._id === data.products.editId
@@ -33,7 +33,9 @@ const ProductForm = (props)=>{
     const [phoneNumber, setPhoneNumber] = useState(result?.phoneNumber ? result.phoneNumber : '')
     const [quantity, setQuantity] = useState(result?.quantity ? result.quantity : '')
     const [description, setDescription] = useState(result?.description ? result.description : '')
+    const [residentId, setResidentId] = useState(result?.residentId ? result.residentId : '')
     const [villageId, setVillageId] = useState(result?.villageId ? result.villageId : '')
+    const [adminId, setAdminId] = useState(result?.adminId ? result.adminId : '')
     const [productImage, setProductImage] = useState(result?.image ? result.image : '')
     const [formErrors, setFormErrors] = useState({})
     const errors = {}
@@ -58,6 +60,8 @@ const ProductForm = (props)=>{
     const handleDescriptionchange = (e) => {
         setDescription(e.target.value)
         setVillageId(data.village.data._id)
+        setResidentId(accountDetails._id)
+        setAdminId(accountDetails.adminId)
     }
      
     const handleImageChange = (e)=>{
@@ -93,7 +97,9 @@ const ProductForm = (props)=>{
              formData1.append('phoneNumber',phoneNumber)
              formData1.append('quantity',quantity)
              formData1.append('description',description)
+             formData1.append('residentId',residentId)
              formData1.append('villageId',villageId)
+             formData1.append('adminId',adminId)
              formData1.append('productImage',productImage)
 
             const reset = () => {
@@ -102,7 +108,9 @@ const ProductForm = (props)=>{
                 setPhoneNumber('')
                 setQuantity('')
                 setDescription('')
+                setResidentId('')
                 setVillageId('')
+                setAdminId('')
                 setProductImage(null)
              }
             productSubmission(formData1,reset)

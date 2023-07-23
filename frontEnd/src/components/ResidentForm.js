@@ -21,7 +21,7 @@ const ResidentForm = (props) => {
     const data = useSelector((state) => {
         return state
     })
- // console.log(data.village.data,'v')
+ 
 
     const result = data.residents.data.find((ele) => {
         return ele._id === data.residents.editId
@@ -42,9 +42,10 @@ const ResidentForm = (props) => {
     const handleNumberChange = (e) => {
         setPhoneNumber(e.target.value)
     }
-
+  
     const handleDoorNoChange = (e) => {
         setDoorNo(e.target.value)
+        
         setVillageId(data.village.data._id)
 
     }
@@ -83,7 +84,7 @@ const ResidentForm = (props) => {
                 villageId
 
             }
-            console.log(formData, 'fd')
+           
             const reset = () => {
                 setName('')
                 setPhoneNumber('')
@@ -91,7 +92,7 @@ const ResidentForm = (props) => {
                 setPassword('')
                 setVillageId('')
             }
-            //formData.role = 'resident'
+           
               formSubmission(formData, reset, result?._id)
         }
         else {

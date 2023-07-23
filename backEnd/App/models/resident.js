@@ -36,7 +36,8 @@ const residentSchema=new Schema({
             default:'resident'
         },
     villageId:{
-        type:String,
+        type:Schema.Types.ObjectId,
+        ref:"Village",
         required:true
     },
     adminId:{

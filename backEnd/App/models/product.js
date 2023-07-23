@@ -37,16 +37,22 @@ const productSchema=new Schema({
         type:String,
         required:true
     },
-    userId:{
+    residentId:{
           type:Schema.Types.ObjectId,
-          ref:'Users',
-          
-    },
+          ref:'Resident',
+          required:true
+          },
     villageId:{
         type:Schema.Types.ObjectId,
-        ref:'Villages',
+        ref:'Village',
         required:true
-    }
+     },
+     adminId:{
+        type:Schema.Types.ObjectId,
+        ref:'User',
+        required:true
+     }
+
 })
 
 const Product=mongoose.model('Product',productSchema)

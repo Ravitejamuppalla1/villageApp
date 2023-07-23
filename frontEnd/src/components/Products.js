@@ -10,25 +10,32 @@ const Products = () => {
 
     const [showProduct, setShowProduct] = useState('')
 
+    const accountData = useSelector((state) => {
+        return state.users.userDetails
+    })
+
     useEffect(() => {
-        dispatch(asyncGetProducts())
-        dispatch(asyncAccountDetails())
-    }, [])
+        if (accountData.role === 'resident') {
+            dispatch(asyncGetProducts(accountData.villageId))
+        }
+        else if (accountData.role === 'admin') {
+            dispatch(asyncGetProducts(accountData._id))
+        }
+
+    }, [accountData])
 
     const productsData = useSelector((state) => {
         return state.products
     })
 
-    const accountData = useSelector((state) => {
-        return state.users.userDetails
-    })
+
 
     const handleShowProduct = (ele) => {
         setShowProduct(ele)
     }
 
     const handleEditProduct = (id) => {
-       dispatch(asyncSetEditProductId(id))
+        dispatch(asyncSetEditProductId(id))
     }
 
     const handleDestroyProduct = (id) => {
@@ -38,52 +45,52 @@ const Products = () => {
 
     return (
         <div>
-
             {
-                productsData.data.length > 0 ?
-                    <div>
-                        <h1> Lists of Products</h1>
-                        <table className="table">
-                            <thead>
-                                <tr>
-                                    <th className="col">S.No</th>
-                                    <th className="col">Product Name</th>
-                                    <th className="col" >Price</th>
-                                    <th className="col">Quantity</th>
-                                    <th className="col">Contact Number</th>
-                                    <th className="col">Description</th>
-                                    <th className="col">Modify</th>
-                                    <th className="col">Image</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    productsData.data.map((ele, i) => {
-                                        console.log(ele.image)
-                                        return <tr key={i}>
-                                            <td>{i + 1}</td>
-                                            <td>{ele.name}</td>
-                                            <td>{ele.price}</td>
-                                            <td>{ele.quantity}</td>
-                                            <td>{ele.phoneNumber}</td>
-                                            <td> <button type="button" className="btn btn-primary" onClick={() => { handleShowProduct(ele) }} data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                                Show
-                                            </button></td>
+                accountData.role === 'resident' ?
+                    <div className="row">
+                        <div className="col-md-5 ml-auto">
+                            {productsData.editId ? <EditProduct /> : <AddProduct />}
+                        </div>
+                        <div className="col-md-7 mt-5" >
+                            {
+                                productsData.data.length > 0 ? 
 
-                                            <td><button onClick={() => { handleEditProduct(ele._id) }} className="btn btn-info">Edit</button>
-                                                <button onClick={() => { handleDestroyProduct(ele._id) }} className="btn btn-danger">Delete</button></td>
-                                            <td><img src={`http://127.0.0.1:3020/${ele.image}`} height="80px" width="150px" alt="img" /></td>
-                                        </tr>
-                                    })
+                                productsData.data.map((ele, i) => {
+                                   return (
+                                        <div className="card" style={{width: "18rem"}}>
+                                            <img src={`http://127.0.0.1:3020/${ele.image}`} alt="img" />
+                                                <div className="card-body">
+                                                    <h5 className="card-title">Product Name-{ele.name}</h5>
+                                                    <h6 className="card-text">Contact Number-{ele.phoneNumber}</h6>
+                                                    <a href="#" className="btn btn-primary" onClick={() => { handleShowProduct(ele) }}>Show</a>
+                                                    <a href="#" className="btn btn-info" onClick={() => { handleEditProduct(ele._id) }}>Edit</a>
+                                                    <a href="#" className="btn btn-danger" onClick={() => { handleDestroyProduct(ele._id) }}>Delete</a>
+                                                </div>
+                                   
+                                   </div> )})  : <p style={{ color: 'Red' }}>No Products are available </p>  
                                 }
-                            </tbody>
-                        </table>
-                    </div>
-                    : <p style={{ color: 'Red' }}>No Products are available </p>
-            }
-            {accountData.role === 'resident' ?
-
-                productsData.editId ? <EditProduct /> : <AddProduct /> : <></>
+                                    
+                             </div> </div>
+                    : <div> {
+                        productsData.data.length > 0 ? 
+                           <>
+                          <center>
+                            <h1 style={{color:"Darkblue"}}>Lists of Products</h1>
+                            </center>
+                        {   
+                        productsData.data.map((ele, i) => {
+                           return (
+                                <div className="card" style={{width: "18rem"}}>
+                                    <img src={`http://127.0.0.1:3020/${ele.image}`} height="200px" width="286px" alt="img" />
+                                        <div className="card-body">
+                                            <h5 className="card-title">Product Name-{ele.name}</h5>
+                                            <h6 className="card-text">Contact Number-{ele.phoneNumber}</h6>
+                                            <a href="#" className="btn btn-primary" onClick={() => { handleShowProduct(ele) }}>Show</a>
+                                            </div>
+                           
+                           </div> )}) }</> : <p style={{ color: 'Red' }}>No Products are available </p>  
+                       
+                    }  </div>
             }
 
 
@@ -107,8 +114,7 @@ const Products = () => {
                 </div>
             </div>
         </div>
-
-
     )
 }
+
 export default Products
