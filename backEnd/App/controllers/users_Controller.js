@@ -1,12 +1,11 @@
 const User = require('../models/user')
 const Resident = require('../models/resident')
-const village = require('../models/village')
-const Product = require('../models/product')
+const Village = require('../models/village')
 const Event = require('../models/event')
 const bcryptjs = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const Village = require('../models/village')
 require('dotenv').config()
+
 const userCtlr = {}
 
 userCtlr.register = async (req, res) => {
@@ -132,7 +131,7 @@ userCtlr.delete = async (req, res) => {
             const user = await User.findByIdAndDelete(id)
             const village = await Village.findOneAndDelete({ adminId: id })
             const resident = await Resident.deleteMany({ adminId: id })
-           // const event = await Event.deleteMany({ villageId: body.id })
+             const event = await Event.deleteMany({ adminId: id })
             //const product = await Product.deleteMany({ villageId: body.id })
             const result = await Promise.all([user, village, resident])
             res.json(result[0])

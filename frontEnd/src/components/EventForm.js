@@ -16,7 +16,7 @@ const EventForm = (props)=>{
 
    useEffect(() => {
         dispatch(asyncGetVillage(accountDetails._id))
-        dispatch(asyncGetEvents())
+        dispatch(asyncGetEvents(accountDetails._id))
     }, [accountDetails])
    
   const data = useSelector((state => {
@@ -32,7 +32,7 @@ const EventForm = (props)=>{
     const [endDate, setEndDate] = useState(result?.endDate ? result.endDate : '')
     const [description, setDescription] = useState(result?.description ? result.description : '')
     const [villageId, setVillageId] = useState(result?.villageId ? result.villageId : '')
-
+    const [adminId, setAdminId] = useState(result?.villageId ? result.villageId : '')
     const [formErrors, setformErrors] = useState({})
     const errors = {}
 
@@ -51,6 +51,7 @@ const EventForm = (props)=>{
     const handleDescriptionchange = (e) => {
         setDescription(e.target.value)
         setVillageId(data.village.data._id)
+        setAdminId(accountDetails._id)
     }
 
     const runValidations = () => {
@@ -79,7 +80,8 @@ const EventForm = (props)=>{
                 startDate,
                 endDate,
                 description,
-                villageId
+                villageId,
+                adminId
 
             }
            console.log(formData,typeof(startDate),'typeof')
@@ -89,6 +91,7 @@ const EventForm = (props)=>{
                 setEndDate('')
                 setDescription('')
                 setVillageId('')
+                setAdminId('')
             }
             eventSubmission(formData,reset,result?._id)
         }
@@ -140,7 +143,7 @@ const EventForm = (props)=>{
                     </Form.Group>
 
                     <Form.Group as={Row} className='mt-3'>
-                        <Form.Label className="mx-5" column md={2}>EndDate</Form.Label>
+                        <Form.Label className="mx-5" column md={2}>Description</Form.Label>
                         <Col md={5}>
                             <Form.Control  type='textarea' value={description} placeholder="Enter Description of Event" onChange={handleDescriptionchange} />  
 

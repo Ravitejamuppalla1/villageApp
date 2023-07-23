@@ -7,7 +7,7 @@ const eventInitialState = {
 const eventsReducers = (state = eventInitialState, action) => {
     switch (action.type) {
         case GET_EVENTS: {
-            return { ...state, data: action.payload }
+            return { ...state,data:action.payload }
         }
         case CREATE_EVENT:{
             return { ...state,data:[...state.data,action.payload]}

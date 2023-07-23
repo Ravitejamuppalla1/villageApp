@@ -1,4 +1,5 @@
 import axios from '../config/axios'
+import Swal from 'sweetalert2'
 export const GET_PRODUCTS = 'GET_PRODUCTS'
 export const CREATE_PRODUCT = 'CREATE_PRODUCT'
 export const EDIT_PRODUCT ="EDIT_PRODUCT"
@@ -40,9 +41,15 @@ export const createProduct = (data) => {
     return (dispatch) => {
         axios.post('/api/products', formData, { headers: { 'authorization': localStorage.getItem('token') } })
             .then((response) => {
-                const result = response.data
-                dispatch(createProduct(result))
+              const result = response.data
+             if(result.hasOwnProperty('price')){
+               dispatch(createProduct(result))
                 reset()
+              }
+              else{
+                Swal.fire(result)
+                reset()
+              }
             })
             .catch((err) => {
                 alert(err.message)

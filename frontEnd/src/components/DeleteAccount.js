@@ -10,19 +10,22 @@ const DeleteAccount = (props) => {
 
     const[villageId,setVillageId] =useState('')
 
-    useEffect(()=>{
-          dispatch(asyncGetVillage())
-    },[])
+    const accountData = useSelector((state)=>{
+        return state.users.userDetails
+    })
+      
+     useEffect(()=>{
+          dispatch(asyncGetVillage(accountData._id))
+    },[accountData])
+
  
     const data = useSelector((state)=>{
-         return state.village.data[0]
+         return state.village.data
         
     })
-    console.log(data,'d')
-
-    
-    const handleDelete = () => {
-        console.log('hi')
+   
+  const handleDelete = () => {
+      
         setVillageId(data._id)
         console.log(villageId,'id')
        Swal.fire({

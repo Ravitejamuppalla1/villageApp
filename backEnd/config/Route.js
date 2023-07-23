@@ -3,7 +3,7 @@ const multer = require('multer')
 const route = express.Router()
 const userCtlr = require('../App/controllers/users_Controller')
 const villageCtlr = require('../App/controllers/villages_Controller')
-const residentCtlr =require('../App/controllers/residents_Controller')
+const residentCtlr =require('../App/controllers/residents_controller')
 const productsCltr =require('../App/controllers/products-Controller')
 const eventsCltr =require('../App/controllers/events-Controller')
 const userAuthenticate =require('../App/middlewares/authenticate')
@@ -55,10 +55,15 @@ const upload = multer({dest:'uploads/'})
     req.permittedRoles = ['assistant','admin']
     next()
    },authorize,residentCtlr.update)
- route.delete('/api/residents/:id',userAuthenticate,(req,res,next)=>{
+   route.delete('/api/residents/:id',userAuthenticate,(req,res,next)=>{
+      req.permittedRoles = ['admin']
+      next()
+   },authorize,residentCtlr.delete)
+   
+ /*route.delete('/api/residents/:id',userAuthenticate,(req,res,next)=>{
     req.permittedRoles = ['assistant','admin']
     next()
-   },authorize,residentCtlr.delete)
+   },authorize,residentCtlr.delete) */
 
 
 //village
@@ -89,7 +94,7 @@ const upload = multer({dest:'uploads/'})
 
 //events
 
-route.get('/api/events',userAuthenticate, (req, res, next) => {
+route.get('/api/allevents/:id',userAuthenticate, (req, res, next) => {
    req.permittedRoles = ['admin','assistant','resident']
    next()
 },authorize,eventsCltr.list)
