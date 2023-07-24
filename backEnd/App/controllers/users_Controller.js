@@ -66,15 +66,11 @@ userCtlr.login = async (req, res) => {
 
 userCtlr.list = async (req, res) => {
     try {
+
         const adminData = await User.find({ role: 'admin' })
-        if (adminData) {
-            res.json(adminData)
-        }
-        else {
-            res.json({
-                errors: "No Admin Data Found"
-            })
-        }
+        const adminData1 = await User.find({ role: '' }) 
+        const adminData2 = adminData.concat(adminData1)
+        res.json(adminData2)
     }
     catch (e) {
         res.json(e)
@@ -149,16 +145,19 @@ userCtlr.destroyAdmin = async(req,res)=>{
     try{
        const id  = req.params.id
        const type = req.query.type
-       const {body} = req
-       let updatedData
+        let updatedData
+        let residentData
         if(type == 'soft'){
-            updatedData = await User.findByIdAndUpdate(id,{isDeleted:true,phoneNumber:body.phoneNumber},{new:true,runValidators:true})
+            updatedData = await User.findByIdAndUpdate(id,{isDeleted:true,role:''},{new:true,runValidators:true})
+            residentData = await Resident.updateMany({adminId:id},{ $set: { role: '' } })
+            console.log(residentData)
            } 
        else if(type == 'restore') {
-           updatedData = await User.findByIdAndUpdate(id,{isDeleted:false,phoneNumber:body.phoneNumber},{new:true,runValidators:true})
+           updatedData = await User.findByIdAndUpdate(id,{isDeleted:false,role:'admin'},{new:true,runValidators:true})
+           residentData = await Resident.updateMany({adminId:id},{ $set: { role: 'resident' } })
           
           }
-       res.json(updatedData)
+           res.json(updatedData)
             
     }
     catch(e){

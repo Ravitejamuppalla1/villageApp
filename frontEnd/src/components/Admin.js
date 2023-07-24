@@ -20,14 +20,16 @@ const Admin = (props) => {
     const adminsData = useSelector((state) => {
         return state.users
     })
-
-    const suspendedData = adminsData.data.filter((ele) => {
-        if (ele.isDeleted == true) {
+     
+    console.log(adminsData,'ad')
+  
+    const suspendedData = adminsData.data?.filter((ele) => {
+        if (ele.isDeleted == true ) {
             return { ...ele }
         }
     })
 
-    const notSuspendedData = adminsData.data.filter((ele) => {
+     const notSuspendedData = adminsData.data?.filter((ele) => {
         if (ele.isDeleted == false) {
             return { ...ele }
         }
@@ -53,14 +55,12 @@ const Admin = (props) => {
     }
 
     const handleDestroyAdmin = (id) => {
-       const number = Number(new Date()) + ""
-        Swal.fire('Are you sure ,you want to suspend the admin')
-        dispatch(asyncDestroyAdmin(id, { type: 'soft' }, { phoneNumber: number.slice(3)}))
+     Swal.fire('Are you sure ,you want to suspend the admin')
+        dispatch(asyncDestroyAdmin(id, { type: 'soft' }))
     }
 
     const handleRestoreAdmin = (id) => {
-        const phoneNumber = prompt("Enter Admin phoneNumber")
-        dispatch(asyncDestroyAdmin(id, { type: 'restore' }, { phoneNumber: (phoneNumber) }))
+      dispatch(asyncDestroyAdmin(id, { type: 'restore' }))
 
     }
 
@@ -91,7 +91,7 @@ const Admin = (props) => {
         <div >
             <div className="row">
                 <div className="col-md-4">
-                <AddAdmin t={t} />
+                    <AddAdmin t={t} />
 
                 </div>
 
@@ -132,7 +132,7 @@ const Admin = (props) => {
                             : <p style={{ color: 'Red' }}>{t("NoAdmin")} </p>
                     }
 
-                   
+
 
                 </div>
 
@@ -144,11 +144,11 @@ const Admin = (props) => {
                 </div>
 
                 <div className="col-md-8">
-                    
-                {
+
+                    {
                         suspendedData.length > 0 ?
                             <div>
-                            
+
                                 <h3 style={{ color: "DarkBlue" }}>{t("Restored")}</h3>
                                 <table className="table">
                                     <thead>

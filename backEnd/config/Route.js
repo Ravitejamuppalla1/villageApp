@@ -25,7 +25,7 @@ const upload = multer({dest:'uploads/'})
    req.permittedRoles = ['superAdmin']
    next()
 },authorize,userCtlr.update)
- route.put('/api/admindelete/:id',userAuthenticate,(req,res,next)=>{
+ route.delete('/api/admindelete/:id',userAuthenticate,(req,res,next)=>{
    req.permittedRoles = ['superAdmin']
    next()
 },authorize , userCtlr.destroyAdmin)
