@@ -7,7 +7,7 @@ export const ACCOUNT_DETAILS = "ACCOUNT_DETAILS"
 export const GET_ADMIN = "GET_ADMIN"
 export const EDIT_ADMIN = "EDIT_ADMIN"
 export const DELETE_ADMIN = "DELETE_ADMIN"
-export const PERMANENT_DELETE_ADMIN ="PERMANENT_DELETE_ADMIN"
+export const PERMANENT_DELETE_ADMIN = "PERMANENT_DELETE_ADMIN"
 
 
 //Register
@@ -21,22 +21,22 @@ export const createUser = (data) => {
 
 
 
-export const asynctUserRegister = (formData, props,reset) => {
- return (dispatch) => {
+export const asynctUserRegister = (formData, props, reset) => {
+    return (dispatch) => {
         axios.post('/api/register', formData)
             .then((result) => {
-               if(result.data.hasOwnProperty('password')){
+                if (result.data.hasOwnProperty('password')) {
                     dispatch(createUser(result.data))
-                   reset()
-                  props.history.push('/login')
+                    reset()
+                    props.history.push('/login')
                 }
-                else{
+                else {
                     Swal.fire(result.data)
                 }
-               
-                 })
+
+            })
             .catch((err) => {
-               console.log(err.message)
+                console.log(err.message)
             })
     }
 }
@@ -51,8 +51,8 @@ export const accountDetails = (data) => {
 
 
 
-export const asyncAccountDetails = (token,props,setIsLogged) => {
-   
+export const asyncAccountDetails = (token, props, setIsLogged) => {
+
     return (dispatch) => {
         axios.get('/api/account', {
             headers: {
@@ -60,15 +60,15 @@ export const asyncAccountDetails = (token,props,setIsLogged) => {
             }
         })
             .then((result) => {
-                if(result.data.role == 'superAdmin'){
+                if (result.data.role == 'superAdmin') {
                     props.history.push('/admin')
-                 
+
                 }
-               /* else{
-                    props.history.push('/')
-                   
-                   
-                } */
+                /* else{
+                     props.history.push('/')
+                    
+                    
+                 } */
                 dispatch(accountDetails(result.data))
             })
             .catch((err) => {
@@ -82,14 +82,14 @@ export const asyncAccountDetails = (token,props,setIsLogged) => {
 
 
 
-export const asyncUserLogin = (formdata, props,setIsLogged) => {
+export const asyncUserLogin = (formdata, props, setIsLogged) => {
     return (dispatch) => {
         axios.post('/api/login', formdata)
             .then((result) => {
-                localStorage.setItem('token',result.data.token)
+                localStorage.setItem('token', result.data.token)
                 if (localStorage.getItem('token') != 'undefined') {
                     Swal.fire('successfully logged in')
-                   dispatch(asyncAccountDetails(result.data.token,props,setIsLogged))
+                    dispatch(asyncAccountDetails(result.data.token, props, setIsLogged))
 
                 }
                 else {
@@ -109,29 +109,31 @@ export const asyncUserLogin = (formdata, props,setIsLogged) => {
 
 export const deleteAdmin = (data) => {
     return {
-        type:PERMANENT_DELETE_ADMIN,
+        type: PERMANENT_DELETE_ADMIN,
         payload: data
     }
 }
 
 
 
-export const asyncAccountDelete = (props,id,setIsLogged) => {
-     return (dispatch) => {
-        axios.delete(`/api/delete/${id}`,{ headers:{
-            'authorization' : localStorage.getItem('token')
-        }})
+export const asyncAccountDelete = (props, id, setIsLogged) => {
+    return (dispatch) => {
+        axios.delete(`/api/delete/${id}`, {
+            headers: {
+                'authorization': localStorage.getItem('token')
+            }
+        })
             .then((result) => {
                 console.log(result.data, 'delete')
                 const token = localStorage.getItem('token')
-                const decoded = jwt_decode(token) 
-               if(decoded.role !== 'superAdmin'){
-                setIsLogged(false)
-                localStorage.removeItem('token')
-                props.history.push('/register')
+                const decoded = jwt_decode(token)
+                if (decoded.role !== 'superAdmin') {
+                    setIsLogged(false)
+                    localStorage.removeItem('token')
+                    props.history.push('/register')
                 }
-                else{
-                         dispatch(deleteAdmin(result.data))
+                else {
+                    dispatch(deleteAdmin(result.data))
                 }
             })
             .catch((err) => {
@@ -160,7 +162,7 @@ export const asyncGetAdmin = (token) => {
             }
         })
             .then((result) => {
-               dispatch(getAdmin(result.data))
+                dispatch(getAdmin(result.data))
             })
             .catch((err) => {
                 console.log(err)
@@ -173,45 +175,47 @@ export const asyncGetAdmin = (token) => {
 
 export const editAdmin = (data) => {
     return {
-        type:EDIT_ADMIN,
+        type: EDIT_ADMIN,
         payload: data
     }
-  }
-  
-  export const asyncEditAdmin = (formData,id) => {
+}
+
+export const asyncEditAdmin = (formData, id) => {
     return (dispatch) => {
         axios.put(`/api/user/${id}`, formData, { headers: { 'authorization': localStorage.getItem('token') } })
             .then((response) => {
                 const result = response.data
-               dispatch(editAdmin(result))
-             })
+                dispatch(editAdmin(result))
+            })
             .catch((err) => {
                 alert(err.message)
             })
     }
-  }
+}
 
 
 //Delete Admin
 
 export const destroyAdmin = (data) => {
-  return {
-        type:DELETE_ADMIN,
+    return {
+        type: DELETE_ADMIN,
         payload: data
     }
-  }
-  
-  export const asyncDestroyAdmin = (id,type,formData) => {
-         return (dispatch) => {
-        axios.put(`/api/admindelete/${id}?type=${type.type}`,formData, { headers: { 'authorization': localStorage.getItem('token') } })
+}
+
+export const asyncDestroyAdmin = (id, type) => {
+
+    return (dispatch) => {
+        axios.delete(`/api/admindelete/${id}?type=${type.type}`, { headers: { 'authorization': localStorage.getItem('token') } })
             .then((response) => {
                 const result = response.data
+               
                 dispatch(destroyAdmin(result))
             })
             .catch((err) => {
                 alert(err.message)
             })
     }
-  }
+}
 
 
