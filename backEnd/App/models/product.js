@@ -26,7 +26,7 @@ const productSchema=new Schema({
         }
     },
     quantity:{
-        type:Number,
+        type:String,
         required:true
     },
     description:{
