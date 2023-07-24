@@ -15,22 +15,27 @@ const upload = multer({dest:'uploads/'})
 //users
  route.post('/api/register',userCtlr.register)
  route.post('/api/login',userCtlr.login)
+
  route.get('/api/account',userAuthenticate,userCtlr.accountDetails)
+
  route.get('/api/users',userAuthenticate,(req,res,next)=>{
                    req.permittedRoles = ['superAdmin']
                    next()
     },authorize,userCtlr.list)
+
  route.get('/api/user/:id',userAuthenticate,userCtlr.listOne)
  route.put('/api/user/:id',userAuthenticate,(req,res,next)=>{
    req.permittedRoles = ['superAdmin']
    next()
 },authorize,userCtlr.update)
+
  route.delete('/api/admindelete/:id',userAuthenticate,(req,res,next)=>{
    req.permittedRoles = ['superAdmin']
    next()
 },authorize , userCtlr.destroyAdmin)
+
  route.delete('/api/delete/:id',userAuthenticate,(req,res,next)=>{
-   req.permittedRoles = ['superAdmin','admin']
+   req.permittedRoles = ['superAdmin','admin','resident']
    next()
 },authorize,userCtlr.delete)
 
@@ -151,4 +156,4 @@ route.delete('/api/products/:id',userAuthenticate, (req, res, next) => {
 
 
 
-module.exports = route
+module.exports = route 

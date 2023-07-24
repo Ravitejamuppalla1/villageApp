@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react"
+import { useState,useEffect,useRef } from "react"
 import { useDispatch,useSelector } from "react-redux"
 import { Button, Row, Col, Form } from 'react-bootstrap'
 import { asyncGetVillage } from "../actions/villagesActions"
@@ -9,6 +9,8 @@ const ProductForm = (props)=>{
     const dispatch = useDispatch()
 
     const {productSubmission} =props
+
+    const image = useRef(null)
 
     const accountDetails = useSelector((state)=>{
         return state.users.userDetails
@@ -64,9 +66,12 @@ const ProductForm = (props)=>{
         setAdminId(accountDetails.adminId)
     }
      
-    const handleImageChange = (e)=>{
-        setProductImage(e.target.files[0]) 
-    }
+    const handleImageChange = (e) => {
+        const file = e.target.files[0]
+        if (file) {
+          setProductImage(file)
+        }
+      }
 
     const runValidations = () => {
         if (name.length === 0) {
@@ -92,6 +97,7 @@ const ProductForm = (props)=>{
         if (Object.keys(errors).length === 0) {
             setFormErrors({})
             const formData1 = new FormData()
+            console.log(name,price,description,quantity,villageId,residentId,adminId,productImage,'cn')
              formData1.append('name',name)
              formData1.append('price',price)
              formData1.append('phoneNumber',phoneNumber)
@@ -111,9 +117,12 @@ const ProductForm = (props)=>{
                 setResidentId('')
                 setVillageId('')
                 setAdminId('')
-                setProductImage(null)
+                if(image.current){
+                    image.current.form.reset()
+                }
              }
-            productSubmission(formData1,reset)
+             console.log(formData1,'constr')
+            productSubmission(formData1,reset,result?._id)
            }
         else {
             setFormErrors(errors)
@@ -186,7 +195,7 @@ const ProductForm = (props)=>{
                     <Form.Group as={Row} className='mt-3'>
                         <Form.Label className="mx-5" column md={2}>Upload Image</Form.Label>
                         <Col md={5}>
-                            <Form.Control type="file" placeholder="Upload Image" onChange={handleImageChange} />
+                            <Form.Control type="file" ref={image} placeholder="Upload Image" onChange={handleImageChange} />
 
                             <Form.Text className="text-muted">
                                 {formErrors.productImage ? <span style={{ color: "red" }}>{formErrors.productImage}</span> : "We'll never share your Product Details with anyone else."}

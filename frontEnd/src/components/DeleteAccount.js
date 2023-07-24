@@ -25,9 +25,10 @@ const DeleteAccount = (props) => {
     })
    
   const handleDelete = () => {
-      
+         if(accountData.role === 'admin'){
         setVillageId(data._id)
-        console.log(villageId,'id')
+         }
+      
        Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -43,7 +44,12 @@ const DeleteAccount = (props) => {
                     'Your file has been deleted.',
                     'success'
                 )
+                if(accountData.role  === 'admin' ){
                 dispatch(asyncAccountDelete(props,data.adminId,props.setIsLogged ))
+                }
+                else if(accountData.role === 'resident'){
+                    dispatch(asyncAccountDelete(props,accountData._id,props.setIsLogged ))
+                }
             }
         })
     }

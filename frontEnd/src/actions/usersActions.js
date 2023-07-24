@@ -117,6 +117,7 @@ export const deleteAdmin = (data) => {
 
 
 export const asyncAccountDelete = (props, id, setIsLogged) => {
+  
     return (dispatch) => {
         axios.delete(`/api/delete/${id}`, {
             headers: {
@@ -124,7 +125,7 @@ export const asyncAccountDelete = (props, id, setIsLogged) => {
             }
         })
             .then((result) => {
-                console.log(result.data, 'delete')
+               
                 const token = localStorage.getItem('token')
                 const decoded = jwt_decode(token)
                 if (decoded.role !== 'superAdmin') {
