@@ -61,7 +61,6 @@ export const createEvent = (data) => {
   }
   
   export const asyncEditEvent = (formData, reset,id) => {
-    console.log(id,'eid')
    return (dispatch) => {
         axios.put(`/api/events/${id}`, formData, { headers: { 'authorization': localStorage.getItem('token') } })
             .then((response) => {
@@ -88,9 +87,15 @@ export const setEditEventId=(id)=>{
   export const asyncSetEditEventId=(id)=>{
     return(dispatch)=>{
       ( async()=>{ 
+    
       try{
+        if(id){
        const event =await axios.get(`/api/events/${id}`,{headers: { 'authorization': localStorage.getItem('token') } })
        dispatch(setEditEventId(event.data._id))
+      }
+      else{
+        dispatch(setEditEventId(''))
+      }
       }catch(e){
         console.log(e.message)
       }

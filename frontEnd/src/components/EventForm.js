@@ -32,7 +32,7 @@ const EventForm = (props)=>{
     const [endDate, setEndDate] = useState(result?.endDate ? result.endDate : '')
     const [description, setDescription] = useState(result?.description ? result.description : '')
     const [villageId, setVillageId] = useState(result?.villageId ? result.villageId : '')
-    const [adminId, setAdminId] = useState(result?.villageId ? result.villageId : '')
+    const [adminId, setAdminId] = useState(result?.adminId ? result.adminId : '')
     const [formErrors, setformErrors] = useState({})
     const errors = {}
 

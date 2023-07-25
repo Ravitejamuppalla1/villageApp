@@ -5,9 +5,8 @@ import { asyncEditProduct,asyncSetEditProductId } from "../actions/productsActio
 const EditProduct = ()=>{
     const dispatch =useDispatch()
     const productSubmission = (formData,reset,id)=>{
-        console.log(formData,id,'editc')
         dispatch(asyncEditProduct(formData,reset,id))
-        dispatch(asyncSetEditProductId(''))
+         dispatch(asyncSetEditProductId(''))
  } 
     return(
         <div>

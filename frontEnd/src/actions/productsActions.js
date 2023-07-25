@@ -68,8 +68,7 @@ export const createProduct = (data) => {
   }
   
   export const asyncEditProduct = (formData, reset,id) => {
-    console.log(formData,id,'action')
-   return (dispatch) => {
+    return (dispatch) => {
         axios.put(`/api/products/${id}`, formData, { headers: { 'authorization': localStorage.getItem('token') } })
             .then((response) => {
                 const result = response.data
@@ -92,12 +91,17 @@ export const createProduct = (data) => {
   }
   
   export const asyncSetEditProductId=(id)=>{
-    console.log(id,'editid')
-    return(dispatch)=>{
+     return(dispatch)=>{
       ( async()=>{ 
       try{
+        if(id){
        const product =await axios.get(`/api/products/${id}`,{headers: { 'authorization': localStorage.getItem('token') } })
-       dispatch(setEditProductId(product.data._id))
+          dispatch(setEditProductId(product.data._id))
+        }
+        else{
+          dispatch(setEditProductId(''))
+        }
+
       }catch(e){
         console.log(e.message)
       }

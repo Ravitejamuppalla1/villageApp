@@ -1,20 +1,20 @@
-import { useState,useEffect,useRef } from "react"
-import { useDispatch,useSelector } from "react-redux"
+import { useState, useEffect, useRef } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { Button, Row, Col, Form } from 'react-bootstrap'
 import { asyncGetVillage } from "../actions/villagesActions"
 
 
-const ProductForm = (props)=>{
+const ProductForm = (props) => {
 
     const dispatch = useDispatch()
 
-    const {productSubmission} =props
+    const { productSubmission } = props
 
     const image = useRef(null)
 
-    const accountDetails = useSelector((state)=>{
+    const accountDetails = useSelector((state) => {
         return state.users.userDetails
-    }) 
+    })
 
     useEffect(() => {
         dispatch(asyncGetVillage(accountDetails.adminId))
@@ -24,8 +24,8 @@ const ProductForm = (props)=>{
         return state
     }))
 
-   
-  
+
+
     const result = data.products.data.find((ele) => {
         return ele._id === data.products.editId
     })
@@ -42,7 +42,7 @@ const ProductForm = (props)=>{
     const [formErrors, setFormErrors] = useState({})
     const errors = {}
 
-  
+
     const handleNameChange = (e) => {
         setName(e.target.value)
     }
@@ -65,13 +65,13 @@ const ProductForm = (props)=>{
         setResidentId(accountDetails._id)
         setAdminId(accountDetails.adminId)
     }
-     
+
     const handleImageChange = (e) => {
         const file = e.target.files[0]
         if (file) {
-          setProductImage(file)
+            setProductImage(file)
         }
-      }
+    }
 
     const runValidations = () => {
         if (name.length === 0) {
@@ -89,24 +89,36 @@ const ProductForm = (props)=>{
         if (description.length === 0) {
             errors.description = 'Description cannot be blank'
         }
-
-    }
+     }
     const handleSubmit = (e) => {
         e.preventDefault()
         runValidations()
         if (Object.keys(errors).length === 0) {
             setFormErrors({})
-            const formData1 = new FormData()
-            console.log(name,price,description,quantity,villageId,residentId,adminId,productImage,'cn')
-             formData1.append('name',name)
-             formData1.append('price',price)
-             formData1.append('phoneNumber',phoneNumber)
-             formData1.append('quantity',quantity)
-             formData1.append('description',description)
-             formData1.append('residentId',residentId)
-             formData1.append('villageId',villageId)
-             formData1.append('adminId',adminId)
-             formData1.append('productImage',productImage)
+            let formData1 = new FormData()
+             if (!result) {
+                formData1.append('name', name)
+                formData1.append('price', price)
+                formData1.append('phoneNumber', phoneNumber)
+                formData1.append('quantity', quantity)
+                formData1.append('description', description)
+                formData1.append('residentId', residentId)
+                formData1.append('villageId', villageId)
+                formData1.append('adminId', adminId)
+                formData1.append('productImage', productImage)
+            }
+            else {
+                formData1 = {
+                    name,
+                    price,
+                    phoneNumber,
+                    quantity,
+                    description,
+                    residentId,
+                    villageId,
+                    adminId
+                }
+            }
 
             const reset = () => {
                 setName('')
@@ -117,13 +129,12 @@ const ProductForm = (props)=>{
                 setResidentId('')
                 setVillageId('')
                 setAdminId('')
-                if(image.current){
+                if (image.current) {
                     image.current.form.reset()
                 }
-             }
-             console.log(formData1,'constr')
-            productSubmission(formData1,reset,result?._id)
-           }
+            }
+            productSubmission(formData1, reset, result?._id)
+        }
         else {
             setFormErrors(errors)
         }
@@ -131,16 +142,16 @@ const ProductForm = (props)=>{
 
     return (
         <div>
-              <Row className="justify-content-md-center">
+            <Row className="justify-content-md-center">
                 <center> <Col md="auto" > <h1 style={{ color: "DarkBlue" }}>{data.products.editId ? "Edit Product" : " Add Product"}</h1> </Col></center>
             </Row>
 
-        <center>
+            <center>
                 <Form  >
                     <Form.Group as={Row} className='mt-5'>
                         <Form.Label className="mx-5" column md={2}>Product Name</Form.Label>
                         <Col md={5}>
-                            <Form.Control type='text' value={name} placeholder="Enter product name" onChange={handleNameChange}  />
+                            <Form.Control type='text' value={name} placeholder="Enter product name" onChange={handleNameChange} />
 
                             <Form.Text className="text-muted">
                                 {formErrors.name ? <span style={{ color: "red" }}>{formErrors.name}</span> : "We'll never share your Product Name with anyone else."}
@@ -151,7 +162,7 @@ const ProductForm = (props)=>{
                     <Form.Group as={Row} className='mt-3'>
                         <Form.Label className="mx-5" column md={2}>Product Price</Form.Label>
                         <Col md={5}>
-                            <Form.Control type='text' value={price} placeholder="Enter price" onChange={handlePricechange}   />
+                            <Form.Control type='text' value={price} placeholder="Enter price" onChange={handlePricechange} />
 
                             <Form.Text className="text-muted">
                                 {formErrors.price ? <span style={{ color: "red" }}>{formErrors.price}</span> : "We'll never share your Product Price with anyone else."}
@@ -204,12 +215,12 @@ const ProductForm = (props)=>{
                     </Form.Group>
 
                     <Button variant="primary" type="submit" onClick={handleSubmit}>
-                    { data.products.editId ? 'Edit' : 'Create' }
+                        {data.products.editId ? 'Edit' : 'Create'}
                     </Button>
 
-                    </Form>
-                    </center>
-             </div>
+                </Form>
+            </center>
+        </div>
     )
 }
 

@@ -64,11 +64,9 @@ export const asyncAccountDetails = (token, props, setIsLogged) => {
                     props.history.push('/admin')
 
                 }
-                /* else{
+                 else{
                      props.history.push('/')
-                    
-                    
-                 } */
+                    } 
                 dispatch(accountDetails(result.data))
             })
             .catch((err) => {
@@ -89,7 +87,7 @@ export const asyncUserLogin = (formdata, props, setIsLogged) => {
                 localStorage.setItem('token', result.data.token)
                 if (localStorage.getItem('token') != 'undefined') {
                     Swal.fire('successfully logged in')
-                    dispatch(asyncAccountDetails(result.data.token, props, setIsLogged))
+                   dispatch(asyncAccountDetails(result.data.token, props, setIsLogged))
 
                 }
                 else {

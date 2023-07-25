@@ -55,8 +55,8 @@ productsCltr.update = async (req, res) => {
     try {
         const id = req.params.id
         const body = req.body
-        console.log(body,id)
         const data = await Product.findByIdAndUpdate(id, body, { new: true, runValidators: true })
+        console.log(data,'d')
         if (data) {
             res.json(data)
         } else {

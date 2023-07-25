@@ -15,9 +15,7 @@ const Events = (props) => {
         return state.users.userDetails
     }))
 
-    console.log(accountData, 'ad')
-
-    useEffect(() => {
+ useEffect(() => {
         if (accountData.role === 'admin') {
             dispatch(asyncGetVillage(accountData._id))
             dispatch(asyncGetEvents(accountData._id))
@@ -33,15 +31,12 @@ const Events = (props) => {
         return state.events
     }))
 
-    console.log(eventsData, 'events')
-
     const data1 = useSelector((state => {
         return state
     }))
 
 
     const handleEditEvent = (id) => {
-        console.log()
         dispatch(asyncSetEditEventId(id))
     }
 
