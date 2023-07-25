@@ -65,10 +65,7 @@ const upload = multer({dest:'uploads/'})
       next()
    },authorize,residentCtlr.delete)
    
- /*route.delete('/api/residents/:id',userAuthenticate,(req,res,next)=>{
-    req.permittedRoles = ['assistant','admin']
-    next()
-   },authorize,residentCtlr.delete) */
+
 
 
 //village

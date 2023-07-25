@@ -129,7 +129,7 @@ export const asyncAccountDelete = (props, id, setIsLogged) => {
                 if (decoded.role !== 'superAdmin') {
                     setIsLogged(false)
                     localStorage.removeItem('token')
-                    props.history.push('/register')
+                    props.history.push('/')
                 }
                 else {
                     dispatch(deleteAdmin(result.data))
