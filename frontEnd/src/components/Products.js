@@ -4,9 +4,10 @@ import { asyncGetProducts, asyncSetEditProductId, asyncDestroyProduct } from "..
 import ReactWhatsapp from 'react-whatsapp'
 import AddProduct from "./AddProduct"
 import EditProduct from "./EditProduct"
-const Products = () => {
+const Products = (props) => {
 
     const dispatch = useDispatch()
+    const {t} = props
 
     const [showProduct, setShowProduct] = useState('')
     const [status, setStatus] = useState('all')
@@ -54,18 +55,18 @@ const Products = () => {
                 accountData.role === 'resident' ?
                     <div className="row">
                         <div className="col-md-5 ml-auto">
-                            {productsData.editId ? <EditProduct /> : <AddProduct />}
+                            {productsData.editId ? <EditProduct t={t} /> : <AddProduct  t={t}/>}
                         </div>
                         <div className="col-md-7 mt-5" >
                             <select onClick={handleSelect} style={{ backgroundColor: "lightgreen" }}>
-                                <option value='all' style={{ color: 'white' }}>All Products</option>
-                                <option value='own' style={{ color: 'white' }}>My Products</option>
+                                <option value='all' style={{ color: 'white' }}>{t("AllProducts")}</option>
+                                <option value='own' style={{ color: 'white' }}>{t("MyProducts")}</option>
                             </select>
                             {
                                 productsData.data.length > 0 && status === 'all' ?
                                     <>
                                         <center>
-                                            <h1 style={{ color: "Darkblue" }}>Lists of All Products</h1>
+                                            <h1 style={{ color: "Darkblue" }}>{t("ListsProducts")}</h1>
                                         </center>
 
                                         <div className="container" >
@@ -77,9 +78,9 @@ const Products = () => {
                                                             <div className="card" style={{ width: "18rem" }}>
                                                                 <img src={`http://127.0.0.1:3020/${ele.image}`} alt="img" />
                                                                 <div className="card-body" >
-                                                                    <h5 className="card-title">Product Name-{ele.name}</h5>
-                                                                    <h6 className="card-text" >Price-{ele.price}₹</h6>
-                                                                    <a href="#" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={() => { handleShowProduct(ele) }}>Show</a>
+                                                                    <h5 className="card-title">{t("ProductName")}-{ele.name}</h5>
+                                                                    <h6 className="card-text" >{t("Price")}-{ele.price}₹</h6>
+                                                                    <a href="#" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={() => { handleShowProduct(ele) }}>{t("Show")}</a>
                                                                     <ReactWhatsapp number={ele.phoneNumber} message="hi Mr/Mrs ,we have seen your product in  Marketing space of village update app,we would like to talk about it"
                                                                         style={{ backgroundColor: 'green' }}><img src="https://th.bing.com/th?q=Whatsapp+Icon+Square&w=120&h=120&c=1&rs=1&qlt=90&cb=1&dpr=1.3&pid=InlineBlock&mkt=en-IN&cc=IN&setlang=en&adlt=strict&t=1&mw=247"
                                                                             alt="img" height="35px" width="40px"
@@ -93,7 +94,7 @@ const Products = () => {
                                     productsData.data.length > 0 && status === 'own' ?
                                         <>
                                             <center>
-                                                <h1 style={{ color: "Darkblue" }}>Lists of My Products</h1>
+                                                <h1 style={{ color: "Darkblue" }}>{t("ListsProducts")}</h1>
                                             </center>
 
                                             <div className="container" >
@@ -105,17 +106,17 @@ const Products = () => {
                                                                 <div className="card" style={{ width: "18rem" }}>
                                                                     <img src={`http://127.0.0.1:3020/${ele.image}`} alt="img" />
                                                                     <div className="card-body">
-                                                                        <h5 className="card-title">Product Name-{ele.name}</h5>
-                                                                        <h6 className="card-text">Price-{ele.price}₹</h6>
-                                                                        <a href="#" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={() => { handleShowProduct(ele) }}>Show</a>
-                                                                        <a href="#" className="btn btn-info" onClick={() => { handleEditProduct(ele._id) }}>Edit</a>
-                                                                        <a href="#" className="btn btn-danger" onClick={() => { handleDestroyProduct(ele._id) }}>Delete</a>
+                                                                        <h5 className="card-title">{t("ProductName")}-{ele.name}</h5>
+                                                                        <h6 className="card-text">{t("Price")}-{ele.price}₹</h6>
+                                                                        <a href="#" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={() => { handleShowProduct(ele) }}>{t("Show")}</a>
+                                                                        <a href="#" className="btn btn-info" onClick={() => { handleEditProduct(ele._id) }}>{t("Edit")}</a>
+                                                                        <a href="#" className="btn btn-danger" onClick={() => { handleDestroyProduct(ele._id) }}>{t("Delete")}</a>
                                                                     </div>
 
                                                                 </div> </div>)
                                                     })}</div> </div>  </>
 
-                                        : <p style={{ color: 'Red' }}>No Products are available </p>
+                                        : <p style={{ color: 'Red' }}>{t("NoProducts")}</p>
                             }
 
                         </div> </div>
@@ -123,7 +124,7 @@ const Products = () => {
                         productsData.data.length > 0 ?
                             <>
                                 <center>
-                                    <h1 style={{ color: "Darkblue" }}>Lists of Products</h1>
+                                    <h1 style={{ color: "Darkblue" }}>{t("ListsProducts")}</h1>
                                 </center>
 
                                 <div className="container">
@@ -135,9 +136,9 @@ const Products = () => {
                                                     <div className="card" style={{ width: "18rem" }}>
                                                         <img src={`http://127.0.0.1:3020/${ele.image}`} height="200px" width="286px" alt="img" />
                                                         <div className="card-body" padding="10px" >
-                                                            <h5 className="card-title">Product Name-{ele.name}</h5>
-                                                            <h6 className="card-text">Price-{ele.price}₹</h6>
-                                                            <a href="#" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={() => { handleShowProduct(ele) }}>Show</a>
+                                                            <h5 className="card-title">{t("ProductName")}-{ele.name}</h5>
+                                                            <h6 className="card-text">{t("Price")}-{ele.price}₹</h6>
+                                                            <a href="#" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={() => { handleShowProduct(ele) }}>{t("Show")}</a>
                                                             <ReactWhatsapp number={ele.phoneNumber} message="hi Mr/Mrs ,we have seen your product in  Marketing space of village update app,we would like to talk about it"
                                                                         style={{ backgroundColor: 'green' }}><img src="https://th.bing.com/th?q=Whatsapp+Icon+Square&w=120&h=120&c=1&rs=1&qlt=90&cb=1&dpr=1.3&pid=InlineBlock&mkt=en-IN&cc=IN&setlang=en&adlt=strict&t=1&mw=247"
                                                                             alt="img" height="35px" width="40px"
@@ -148,7 +149,7 @@ const Products = () => {
                                             )
                                         })
 
-                                        }  </div> </div>  </> : <p style={{ color: 'Red' }}>No Products are available </p>
+                                        }  </div> </div>  </> : <p style={{ color: 'Red' }}>{t("NoProducts")}</p>
 
                     }  </div>
             }
@@ -164,12 +165,12 @@ const Products = () => {
                         </div>
                         <div className="modal-body">
 
-                            Description-{showProduct.description} <br />
-                            Quantity -{showProduct.quantity}<br />
-                            Contact Number - {showProduct.phoneNumber}
+                        {t("Description")}-{showProduct.description} <br />
+                            {t("Quantity")} -{showProduct.quantity}<br />
+                            {t("ContactNumber")} - {showProduct.phoneNumber}
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-success" data-bs-dismiss="modal">Close</button>
+                            <button type="button" className="btn btn-success" data-bs-dismiss="modal">{t("Close")}</button>
                         </div>
                     </div>
                 </div>

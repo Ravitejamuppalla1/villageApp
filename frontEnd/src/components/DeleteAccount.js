@@ -8,6 +8,8 @@ const DeleteAccount = (props) => {
 
     const dispatch = useDispatch()
 
+    const {t} = props
+
     const[villageId,setVillageId] =useState('')
 
     const accountData = useSelector((state)=>{
@@ -56,8 +58,8 @@ const DeleteAccount = (props) => {
 
     return (
         <div>
-            <h4 style={{ color: 'Black' }}> Click below to delete your account...</h4>
-            <button className='btn btn-danger' onClick={handleDelete}> Delete Account </button>
+            <h4 style={{ color: 'Black' }}>{t("deletemsg")}</h4>
+            <button className='btn btn-danger' onClick={handleDelete}> {t("DeleteAccount")} </button>
         </div>
     )
 }
