@@ -125,12 +125,13 @@ userCtlr.update = async (req, res) => {
 userCtlr.delete = async (req, res) => {
     try {
         const id  = req.params.id
-         if(req.user.role === 'admin'){
+         if(req.user.role === 'admin' || req.user.role === 'superAdmin' ){
             const user = await User.findByIdAndDelete(id)
             const village = await Village.findOneAndDelete({ adminId: id })
             const resident = await Resident.deleteMany({ adminId: id })
              const event = await Event.deleteMany({ adminId: id })
-            const result = await Promise.all([user, village, resident])
+             const product = await Product.deleteMany({adminId:id})
+            const result = await Promise.all([user, village, resident,product])
             res.json(result[0])
           }
           else if(req.user.role === 'resident'){

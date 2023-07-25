@@ -209,7 +209,7 @@ const Container = (props) => {
                                             </li>
                                         </ul>
                                         <span className="navbar-text">
-                                            <img src="https://tse3.mm.bing.net/th?id=OIP.Jfvvfl7brkO3ik4oG2FW2gHaFO&pid=ImgDet&rs=1" value='l' alt='lng' height="50px" width="50px" />  <select name='language' onChange={handleLanguageChange}>
+                                           <select name='language' onChange={handleLanguageChange}>
                                                 <option value="en">English</option>
                                                 <option value="te">Telugu</option>
                                                 <option value="ta">Tamil</option>
