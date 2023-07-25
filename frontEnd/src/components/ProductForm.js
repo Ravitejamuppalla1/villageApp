@@ -8,7 +8,7 @@ const ProductForm = (props) => {
 
     const dispatch = useDispatch()
 
-    const { productSubmission } = props
+    const { productSubmission ,t  } = props
 
     const image = useRef(null)
 
@@ -143,79 +143,79 @@ const ProductForm = (props) => {
     return (
         <div>
             <Row className="justify-content-md-center">
-                <center> <Col md="auto" > <h1 style={{ color: "DarkBlue" }}>{data.products.editId ? "Edit Product" : " Add Product"}</h1> </Col></center>
+                <center> <Col md="auto" > <h1 style={{ color: "DarkBlue" }}>{data.products.editId ? <span>{t("EditProduct")} </span>:<span>{t("AddProduct")}</span> }</h1> </Col></center>
             </Row>
 
             <center>
                 <Form  >
                     <Form.Group as={Row} className='mt-5'>
-                        <Form.Label className="mx-5" column md={2}>Product Name</Form.Label>
+                        <Form.Label className="mx-5" column md={2}>{t("ProductName")}</Form.Label>
                         <Col md={5}>
-                            <Form.Control type='text' value={name} placeholder="Enter product name" onChange={handleNameChange} />
+                            <Form.Control type='text' value={name} placeholder={t("productname")} onChange={handleNameChange} />
 
                             <Form.Text className="text-muted">
-                                {formErrors.name ? <span style={{ color: "red" }}>{formErrors.name}</span> : "We'll never share your Product Name with anyone else."}
+                                {formErrors.name ? <span style={{ color: "red" }}>{t("blankProduct")}</span> : <span>{t("shareProductname")}</span>}
                             </Form.Text>
                         </Col>
                     </Form.Group>
 
                     <Form.Group as={Row} className='mt-3'>
-                        <Form.Label className="mx-5" column md={2}>Product Price</Form.Label>
+                        <Form.Label className="mx-5" column md={2}>{t("Price")}</Form.Label>
                         <Col md={5}>
-                            <Form.Control type='text' value={price} placeholder="Enter price" onChange={handlePricechange} />
+                            <Form.Control type='text' value={price} placeholder={t("Enterprice")} onChange={handlePricechange} />
 
                             <Form.Text className="text-muted">
-                                {formErrors.price ? <span style={{ color: "red" }}>{formErrors.price}</span> : "We'll never share your Product Price with anyone else."}
+                                {formErrors.price ? <span style={{ color: "red" }}>{t("blankprice")}</span> : <span>{t("shareProductprice")}</span>}
                             </Form.Text>
                         </Col>
                     </Form.Group>
 
                     <Form.Group as={Row} className='mt-3'>
-                        <Form.Label className="mx-5" column md={2}>PhoneNumber</Form.Label>
+                        <Form.Label className="mx-5" column md={2}>{t("PhoneNumber")}</Form.Label>
                         <Col md={5}>
-                            <Form.Control type='text' value={phoneNumber} placeholder="Enter your phoneNumber" onChange={handlephoneNumberchange} />
+                            <Form.Control type='text' value={phoneNumber} placeholder={t("phonenumber")} onChange={handlephoneNumberchange} />
 
                             <Form.Text className="text-muted">
-                                {formErrors.phoneNumber ? <span style={{ color: "red" }}>{formErrors.phoneNumber}</span> : "We'll never share your Phone Number with anyone else."}
+                                {formErrors.phoneNumber ? <span style={{ color: "red" }}>{t("blankPhoneNumber")}</span> :<span>{t("sharePhoneNumber")}</span>}
                             </Form.Text>
                         </Col>
                     </Form.Group>
 
                     <Form.Group as={Row} className='mt-3'>
-                        <Form.Label className="mx-5" column md={2}>Quantity</Form.Label>
+                        <Form.Label className="mx-5" column md={2}>{t("Quantity")}</Form.Label>
                         <Col md={5}>
-                            <Form.Control type='text' value={quantity} placeholder="Enter quantity" onChange={handleQuantitychange} />
+                            <Form.Control type='text' value={quantity} placeholder={t("Enterquantity")} onChange={handleQuantitychange} />
 
                             <Form.Text className="text-muted">
-                                {formErrors.quantity ? <span style={{ color: "red" }}>{formErrors.quantity}</span> : "We'll never share your Product Details with anyone else."}
+                                {formErrors.quantity ? <span style={{ color: "red" }}>{t("blankquantity")}</span> : <span>{t("shareProductdetails")}</span>}
                             </Form.Text>
                         </Col>
                     </Form.Group>
 
                     <Form.Group as={Row} className='mt-3'>
-                        <Form.Label className="mx-5" column md={2}>Description</Form.Label>
+                        <Form.Label className="mx-5" column md={2}>{t("Description")}</Form.Label>
                         <Col md={5}>
-                            <Form.Control value={description} placeholder="Enter description" onChange={handleDescriptionchange} />
+                            <Form.Control value={description} placeholder= {t("Enterdescription")} onChange={handleDescriptionchange} />
 
                             <Form.Text className="text-muted">
-                                {formErrors.description ? <span style={{ color: "red" }}>{formErrors.description}</span> : "We'll never share your Product Details with anyone else."}
+                                {formErrors.description ? <span style={{ color: "red" }}>{t("blankdescription")}</span> :<span>{t("shareProductdetails")}</span>}
                             </Form.Text>
                         </Col>
                     </Form.Group>
 
                     <Form.Group as={Row} className='mt-3'>
-                        <Form.Label className="mx-5" column md={2}>Upload Image</Form.Label>
+                        <Form.Label className="mx-5" column md={2}>{t("Uploadimage")}</Form.Label>
                         <Col md={5}>
                             <Form.Control type="file" ref={image} placeholder="Upload Image" onChange={handleImageChange} />
 
                             <Form.Text className="text-muted">
-                                {formErrors.productImage ? <span style={{ color: "red" }}>{formErrors.productImage}</span> : "We'll never share your Product Details with anyone else."}
+                                {formErrors.productImage ? <span style={{ color: "red" }}>{formErrors.productImage}</span> :<span>{t("shareProductdetails")}</span>}
                             </Form.Text>
                         </Col>
                     </Form.Group>
 
                     <Button variant="primary" type="submit" onClick={handleSubmit}>
-                        {data.products.editId ? 'Edit' : 'Create'}
+                        {data.products.editId ?  <span>{t("Edit")}</span>: <span>{t("Create")}</span>}
                     </Button>
 
                 </Form>

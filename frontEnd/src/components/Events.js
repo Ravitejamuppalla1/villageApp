@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
-import { asyncGetEvents, asyncSetEditEventId, asyncDestroyEvent, asyncSendEvent } from "../actions/eventsActions"
-import { asyncAccountDetails } from "../actions/usersActions"
+import { asyncGetEvents, asyncSetEditEventId, asyncDestroyEvent } from "../actions/eventsActions"
 import { asyncGetVillage } from "../actions/villagesActions"
 import AddEvent from '../components/AddEvent'
 import EditEvent from "./EditEvent"
 
 const Events = (props) => {
     const dispatch = useDispatch()
+
+    const {t} =props
 
     const [showEvent, setShowEvent] = useState('')
 
@@ -47,13 +48,7 @@ const Events = (props) => {
     const handleShowEvent = (ele) => {
         setShowEvent(ele)
     }
-
-    const handleSendEvent = (data) => {
-        data.adminNumber = accountData.phoneNumber
-        dispatch(asyncSendEvent(data))
-
-    }
-    return (
+   return (
         <div>
             {
                 accountData.role === 'admin' ?
@@ -68,16 +63,16 @@ const Events = (props) => {
                             {data1?.village.data === null ? <></> :
                                 eventsData.data?.length > 0 ?
                                     <div>
-                                        <h3 style={{ color: "darkblue" }}> Lists of Events</h3>
+                                        <h3 style={{ color: "darkblue" }}>{t("ListsEvents")}</h3>
                                         <table className="table">
                                             <thead>
                                                 <tr>
-                                                    <th className="col">S.No</th>
-                                                    <th className="col">Event Title</th>
-                                                    <th className="col" >Start Date</th>
-                                                    <th className="col">End Date</th>
-                                                    <th className="col">Description</th>
-                                                    <th className="col">Modify</th>
+                                                    <th className="col">{t("SNO")}</th>
+                                                    <th className="col">{t("EventTitle")}</th>
+                                                    <th className="col" >{t("StartDate")}</th>
+                                                    <th className="col">{t("EndDate")}</th>
+                                                    <th className="col">{t("Description")}</th>
+                                                    <th className="col">{t("Modify")}</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -89,13 +84,12 @@ const Events = (props) => {
                                                             <td>{(ele.startDate).slice(0, 10)}</td>
                                                             <td>{(ele.endDate).slice(0, 10)}</td>
                                                             <td> <button type="button" className="btn btn-primary" onClick={() => { handleShowEvent(ele) }} data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                                                Show
+                                                                {t("Show")}
                                                             </button></td>
-                                                            <td><button onClick={() => { handleEditEvent(ele._id) }} className="btn btn-info">Edit</button>
-                                                                <button onClick={() => { handleDestroyEvent(ele._id) }} className="btn btn-danger">Delete</button>
-                                                                <button onClick={() => { handleSendEvent(ele) }} className="btn btn-danger">whatsapp</button>
-
-                                                            </td>
+                                                            <td><button onClick={() => { handleEditEvent(ele._id) }} className="btn btn-info">{t("Edit")}</button>
+                                                                <button onClick={() => { handleDestroyEvent(ele._id) }} className="btn btn-danger">{t("Delete")}</button>
+                                                              
+                                                          </td>
                                                         </tr>
                                                     })
                                                 }
@@ -105,7 +99,7 @@ const Events = (props) => {
 
 
 
-                                    : <p style={{ color: 'Red' }}>No Events are scheduled </p>
+                                    : <p style={{ color: 'Red' }}>{t("NoEvents")} </p>
 
 
                             }  </div> </div>
@@ -114,16 +108,16 @@ const Events = (props) => {
                     data1.village.data === null ? <></> :
                         (eventsData.data?.length > 0) ?
                             <div>
-                                <h3 style={{ color: "darkblue" }}> Lists of Events</h3>
+                                <h3 style={{ color: "darkblue" }}>{t("ListsEvents")}</h3>
                                 <center>
                                     <table className="table">
                                         <thead>
                                             <tr>
-                                                <th className="col">S.No</th>
-                                                <th className="col">Event Title</th>
-                                                <th className="col" >Start Date</th>
-                                                <th className="col">End Date</th>
-                                                <th className="col">Description</th>
+                                                <th className="col">{t("SNO")}</th>
+                                                <th className="col">{t("EventTitle")}</th>
+                                                <th className="col" >{t("StartDate")}</th>
+                                                <th className="col">{t("EndDate")}</th>
+                                                <th className="col">{t("Description")}</th>
 
                                             </tr>
                                         </thead>
@@ -136,7 +130,7 @@ const Events = (props) => {
                                                         <td>{(ele.startDate).slice(0, 10)}</td>
                                                         <td>{(ele.endDate).slice(0, 10)}</td>
                                                         <td> <button type="button" className="btn btn-primary" onClick={() => { handleShowEvent(ele) }} data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                                            Show
+                                                            {t("Show")}
                                                         </button></td>
 
                                                     </tr>
@@ -146,7 +140,7 @@ const Events = (props) => {
                                     </table>
                                 </center>
                             </div>
-                            : <p style={{ color: 'Red' }}>No Events are scheduled </p>
+                            : <p style={{ color: 'Red' }}>{t("NoEvents")} </p>
             }
 
             <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -157,12 +151,12 @@ const Events = (props) => {
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
-                            Description-{showEvent.description} <br />
-                            Start Date-{(showEvent.startDate)?.slice(0, 10)}<br />
-                            End Date-{(showEvent.endDate)?.slice(0, 10)}
+                        {t("Description")}-{showEvent.description} <br />
+                        {t("StartDate")}-{(showEvent.startDate)?.slice(0, 10)}<br />
+                        {t("EndDate")}-{(showEvent.endDate)?.slice(0, 10)}
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-success" data-bs-dismiss="modal">Close</button>
+                            <button type="button" className="btn btn-success" data-bs-dismiss="modal">{t("Close")}</button>
                         </div>
                     </div>
                 </div>

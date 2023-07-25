@@ -126,19 +126,3 @@ export const setEditEventId=(id)=>{
             })
     }
   }
-
-
-  export const asyncSendEvent = (formData) => {
- 
-    return (dispatch) => {
-        axios.post('/api/whatsapp', formData,{ headers: { 'authorization': localStorage.getItem('token') } })
-            .then((response) => {
-                const result = response.data
-                console.log(result)
-               // dispatch(destroyEvent(result))
-            })
-            .catch((err) => {
-                alert(err.message)
-            })
-    }
-  }

@@ -28,7 +28,7 @@ export const asynctUserRegister = (formData, props, reset) => {
                 if (result.data.hasOwnProperty('password')) {
                     dispatch(createUser(result.data))
                     reset()
-                    props.history.push('/login')
+                    props.history.push('/')
                 }
                 else {
                     Swal.fire(result.data)
@@ -65,7 +65,7 @@ export const asyncAccountDetails = (token, props, setIsLogged) => {
 
                 }
                  else{
-                     props.history.push('/')
+                     props.history.push('/home')
                     } 
                 dispatch(accountDetails(result.data))
             })
