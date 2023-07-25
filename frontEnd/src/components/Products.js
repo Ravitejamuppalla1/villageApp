@@ -33,10 +33,9 @@ const Products = () => {
     const ownProducts = productsData.data.filter(ele => ele.residentId === accountData._id)
 
     const handleShowProduct = (ele) => {
-
-        setShowProduct(ele)
+         setShowProduct(ele)
     }
-    console.log(showProduct)
+   
     const handleEditProduct = (id) => {
         dispatch(asyncSetEditProductId(id))
     }
@@ -48,7 +47,7 @@ const Products = () => {
     const handleSelect = (e) => {
         setStatus(e.target.value)
     }
-    console.log(status, 's')
+   
     return (
         <div>
             {

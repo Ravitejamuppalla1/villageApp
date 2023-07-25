@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, Route, withRouter } from 'react-router-dom'
+import { Link, Route, withRouter,Switch,Redirect } from 'react-router-dom'
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Register from "./Register";
@@ -15,6 +15,7 @@ import Swal from "sweetalert2";
 import { asyncAccountDetails } from "../actions/usersActions";
 import i18n from 'i18next'
 import { initReactI18next, useTranslation } from 'react-i18next'
+import { Router } from "react-router-dom/cjs/react-router-dom.min";
 
 const translationEn = {
     VILLAGE: "VILLAGE UPDATE APP", Home: "Home", village: "village", Residents: "Residents", Events: "Events", products: "products",
@@ -264,20 +265,26 @@ const Container = (props) => {
                     (
                         <div>
                             <Route path='/admin' render={(props) => {
-                                return <Admin  {...props} t={t} />
+                                return <Admin  {...props} t={t}  />
                             }} />
                         </div>
                     )
 
                     :
-                    <div>
-                        <Route path='/register' render={(props) => {
-                            return <Register  {...props} t={t} />
+                 <div>
+                  
+                 
+                        <Route path='/register'  render={(props) => {
+                            return   <Register  {...props} t={t}  />
                         }} />
                         <Route path='/login' render={(props) => {
                             return <Login  {...props} setIsLogged={setIsLogged} t={t} />
                         }} />
+                         
                     </div>
+                 
+                   
+                    
             }
 
         </div>
