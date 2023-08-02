@@ -1,25 +1,27 @@
-import { useState,useEffect } from "react"
+import { useState, useEffect } from "react"
 import { Button, Row, Col, Form } from 'react-bootstrap'
 import { asyncGetVillage } from "../actions/villagesActions"
 import { asyncGetEvents } from "../actions/eventsActions"
-import { useSelector,useDispatch } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
+import Calendar from 'react-calendar'
+import 'react-calendar/dist/Calendar.css'
 
-const EventForm = (props)=>{
+const EventForm = (props) => {
 
-    const dispatch =useDispatch()
+    const dispatch = useDispatch()
 
-    const {eventSubmission} = props
+    const { eventSubmission } = props
 
-    const accountDetails = useSelector((state)=>{
+    const accountDetails = useSelector((state) => {
         return state.users.userDetails
-    }) 
+    })
 
-   useEffect(() => {
+    useEffect(() => {
         dispatch(asyncGetVillage(accountDetails._id))
         dispatch(asyncGetEvents(accountDetails._id))
     }, [accountDetails])
-   
-  const data = useSelector((state => {
+
+    const data = useSelector((state => {
         return state
     }))
 
@@ -28,24 +30,27 @@ const EventForm = (props)=>{
     })
 
     const [title, setTitle] = useState(result?.title ? result.title : '')
-    const [startDate, setStartDate] = useState(result?.startDate ? result.startDate : '')
-    const [endDate, setEndDate] = useState(result?.endDate ? result.endDate : '')
+    const [startDate, setStartDate] = useState(new Date())
+    const [endDate, setEndDate] = useState(new Date())
     const [description, setDescription] = useState(result?.description ? result.description : '')
     const [villageId, setVillageId] = useState(result?.villageId ? result.villageId : '')
     const [adminId, setAdminId] = useState(result?.adminId ? result.adminId : '')
     const [formErrors, setformErrors] = useState({})
     const errors = {}
 
-   const handleTitleChange = (e) => {
+    const handleTitleChange = (e) => {
         setTitle(e.target.value)
     }
 
-    const handleStartDatechange = (e) => {
-        setStartDate(e.target.value)
+    const handleStartDatechange = (date) => {
+     
+        const newDate = (`${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`)
+        setStartDate(newDate)
     }
 
-    const handleEndDatechange = (e) => {
-        setEndDate(e.target.value)
+    const handleEndDatechange = (date) => {
+       const newDate = (`${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`)
+       setEndDate(newDate)
     }
 
     const handleDescriptionchange = (e) => {
@@ -69,7 +74,7 @@ const EventForm = (props)=>{
         }
 
     }
-      
+
     const handleSubmit = (e) => {
         e.preventDefault()
         runValidations()
@@ -84,84 +89,83 @@ const EventForm = (props)=>{
                 adminId
 
             }
-           console.log(formData,typeof(startDate),'typeof')
             const reset = () => {
                 setTitle('')
-                setStartDate('')
-                setEndDate('')
+                setStartDate(new Date())
+                setEndDate(new Date())
                 setDescription('')
                 setVillageId('')
                 setAdminId('')
             }
-            eventSubmission(formData,reset,result?._id)
+            eventSubmission(formData, reset, result?._id)
         }
         else {
             setformErrors(errors)
         }
     }
 
-    return(
+    return (
         <div>
-             {data.village.data === null ?  <p style={{color:"red"}}>Create Village Record,to access this page</p> :
-             <>
-              <Row className="justify-content-md-center">
-                <center> <Col md="auto" > <h1 style={{ color: "DarkBlue" }}>{data.events.editId ? "Edit Event" : " Add Event"}</h1> </Col></center>
-            </Row>
-              <center>
-                <Form  >
-                    <Form.Group as={Row} className='mt-5'>
-                        <Form.Label className="mx-5" column md={2}>Title</Form.Label>
-                        <Col md={5}>
-                            <Form.Control type='text' value={title} placeholder="Enter Event Title" onChange={handleTitleChange} />
+            {data.village.data === null ? <p style={{ color: "red" }}>Create Village Record,to access this page</p> :
+                <>
+                    <Row className="justify-content-md-center">
+                        <center> <Col md="auto" > <h1 style={{ color: "DarkBlue" }}>{data.events.editId ? "Edit Event" : " Add Event"}</h1> </Col></center>
+                    </Row>
+                    <center>
+                        <Form  >
+                            <Form.Group as={Row} className='mt-5'>
+                                <Form.Label className="mx-5" column md={2}>Title</Form.Label>
+                                <Col md={5}>
+                                    <Form.Control type='text' value={title} placeholder="Enter Event Title" onChange={handleTitleChange} />
 
-                            <Form.Text className="text-muted">
-                                {formErrors.title ? <span style={{ color: "red" }}>{formErrors.title}</span> : "We'll never share your Event Title with anyone else."}
-                            </Form.Text>
-                        </Col>
-                    </Form.Group>
+                                    <Form.Text className="text-muted">
+                                        {formErrors.title ? <span style={{ color: "red" }}>{formErrors.title}</span> : "We'll never share your Event Title with anyone else."}
+                                    </Form.Text>
+                                </Col>
+                            </Form.Group>
 
-                    <Form.Group as={Row} className='mt-3'>
-                        <Form.Label className="mx-5" column md={2}>startDate</Form.Label>
-                        <Col md={5}>
-                            <Form.Control type='Date' value={startDate} placeholder="Enter startDate of Event" onChange={handleStartDatechange} />
+                            <Form.Group as={Row} className='mt-3'>
+                                <Form.Label className="mx-5" column md={2}>startDate</Form.Label>
+                                <Col md={5}>
+                                    <Calendar onChange={handleStartDatechange} value={startDate} />
 
-                            <Form.Text className="text-muted">
-                                {formErrors.startDate ? <span style={{ color: "red" }}>{formErrors.startDate}</span> : "We'll never share your Event start Date with anyone else."}
-                            </Form.Text>
-                        </Col>
-                    </Form.Group>
+                                    <Form.Text className="text-muted">
+                                        {formErrors.startDate ? <span style={{ color: "red" }}>{formErrors.startDate}</span> : "We'll never share your Event start Date with anyone else."}
+                                    </Form.Text>
+                                </Col>
+                            </Form.Group>
 
-                    <Form.Group as={Row} className='mt-3'>
-                        <Form.Label className="mx-5" column md={2}>EndDate</Form.Label>
-                        <Col md={5}>
-                            <Form.Control type='Date' value={endDate} placeholder="Enter EndDate of Event" onChange={handleEndDatechange}  />
+                            <Form.Group as={Row} className='mt-3'>
+                                <Form.Label className="mx-5" column md={2}>EndDate</Form.Label>
+                                <Col md={5}>
+                                    <Calendar value={endDate} onChange={handleEndDatechange} />
 
-                            <Form.Text className="text-muted">
-                                {formErrors.endDate ? <span style={{ color: "red" }}>{formErrors.endDate}</span> : "We'll never share your Event End Date with anyone else."}
-                            </Form.Text>
-                        </Col>
-                    </Form.Group>
+                                    <Form.Text className="text-muted">
+                                        {formErrors.endDate ? <span style={{ color: "red" }}>{formErrors.endDate}</span> : "We'll never share your Event End Date with anyone else."}
+                                    </Form.Text>
+                                </Col>
+                            </Form.Group>
 
-                    <Form.Group as={Row} className='mt-3'>
-                        <Form.Label className="mx-5" column md={2}>Description</Form.Label>
-                        <Col md={5}>
-                            <Form.Control  type='textarea' value={description} placeholder="Enter Description of Event" onChange={handleDescriptionchange} />  
+                            <Form.Group as={Row} className='mt-3'>
+                                <Form.Label className="mx-5" column md={2}>Description</Form.Label>
+                                <Col md={5}>
+                                    <Form.Control type='textarea' value={description} placeholder="Enter Description of Event" onChange={handleDescriptionchange} />
 
-                            <Form.Text className="text-muted">
-                                {formErrors.description ? <span style={{ color: "red" }}>{formErrors.description}</span> : "We'll never share your Event Details with anyone else."}
-                            </Form.Text>
-                        </Col>
-                    </Form.Group>
+                                    <Form.Text className="text-muted">
+                                        {formErrors.description ? <span style={{ color: "red" }}>{formErrors.description}</span> : "We'll never share your Event Details with anyone else."}
+                                    </Form.Text>
+                                </Col>
+                            </Form.Group>
 
-                    <Button variant="primary" type="submit" onClick={handleSubmit}>
-                    { data.events.editId ? 'Edit' : 'Create' }
-                    </Button>
+                            <Button variant="primary" type="submit" onClick={handleSubmit}>
+                                {data.events.editId ? 'Edit' : 'Create'}
+                            </Button>
 
-                    </Form>
+                        </Form>
                     </center>
-                    </>
+                </>
             }
-               </div>
+        </div>
     )
 }
 

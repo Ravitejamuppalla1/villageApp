@@ -38,7 +38,7 @@ export const createEvent = (data) => {
   }
   
   export const asyncCreateEvent = (formData, reset) => {
-    return (dispatch) => {
+   return (dispatch) => {
         axios.post('/api/events', formData, { headers: { 'authorization': localStorage.getItem('token') } })
             .then((response) => {
                 const result = response.data
